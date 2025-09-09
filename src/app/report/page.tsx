@@ -11,9 +11,9 @@ export default function ReportPage() {
         <p className="text-muted-foreground">Detailed analysis for Wheat crop, generated on {new Date().toLocaleDateString()}</p>
       </div>
 
-      <div className="grid grid-cols-1 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="col-span-1">
-          <Card className="mb-8">
+          <Card>
             <CardHeader>
               <CardTitle>Field Analysis</CardTitle>
               <CardDescription>Satellite imagery showing areas of concern.</CardDescription>
@@ -33,8 +33,9 @@ export default function ReportPage() {
               </div>
             </CardContent>
           </Card>
-
-          <Card className="mb-8">
+        </div>
+        <div className="col-span-1 space-y-8">
+          <Card>
             <CardHeader>
               <CardTitle>Disease Details</CardTitle>
             </CardHeader>
