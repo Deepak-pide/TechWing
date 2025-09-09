@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -10,37 +10,57 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import Image from "next/image";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const testimonials = [
   {
     name: "Rajesh P.",
     role: "Client",
-    quote: "Sprayed my 15-acre cotton field in just 3 hours! Saved 30% on pesticides. Best farming investment after my drip system."
+    quote: "Sprayed my 15-acre cotton field in just 3 hours! Saved 30% on pesticides. Best farming investment after my drip system.",
+    avatar: "/placeholder.svg?text=RP",
+    initials: "RP",
+    imageHint: "smiling farmer"
   },
   {
     name: "Laxmi D.",
     role: "Client",
-    quote: "Caught leaf disease early in my tomato farm. Quick response, precise spraying. Saved both money and crop!"
+    quote: "Caught leaf disease early in my tomato farm. Quick response, precise spraying. Saved both money and crop!",
+    avatar: "/placeholder.svg?text=LD",
+    initials: "LD",
+    imageHint: "happy farmer"
   },
   {
     name: "Surinder",
     role: "Client",
-    quote: "Perfect for my paddy fields. IFFCO fertilizer spraying super accurate. Just wish booking was quicker in peak season."
+    quote: "Perfect for my paddy fields. IFFCO fertilizer spraying super accurate. Just wish booking was quicker in peak season.",
+    avatar: "/placeholder.svg?text=S",
+    initials: "S",
+    imageHint: "farmer man"
   },
   {
     name: "Ahmed",
     role: "Client",
-    quote: "Weekly monitoring of my chili farm prevents problems before they start. Reports in local language. Very professional."
+    quote: "Weekly monitoring of my chili farm prevents problems before they start. Reports in local language. Very professional.",
+    avatar: "/placeholder.svg?text=A",
+    initials: "A",
+    imageHint: "farmer portrait"
   },
   {
     name: "Mukesh",
     role: "Client",
-    quote: "Managing vegetables and rice with their help. Drone spotted drainage issues I never knew about. Good support in local language. Fair pricing."
+    quote: "Managing vegetables and rice with their help. Drone spotted drainage issues I never knew about. Good support in local language. Fair pricing.",
+    avatar: "/placeholder.svg?text=M",
+    initials: "M",
+    imageHint: "agriculture worker"
   },
   {
     name: "Sarita",
     role: "Client",
-    quote: "Changed my whole farming approach. Their crop monitoring helped me switch to organic methods. Reports help with organic certification too!"
+    quote: "Changed my whole farming approach. Their crop monitoring helped me switch to organic methods. Reports help with organic certification too!",
+    avatar: "/placeholder.svg?text=S",
+    initials: "S",
+    imageHint: "smiling woman"
   }
 ];
 
@@ -60,20 +80,27 @@ export default function Testimonials() {
           onMouseEnter={plugin.current.stop}
           onMouseLeave={plugin.current.reset}
           opts={{
+            align: "start",
             loop: true,
           }}
         >
-          <CarouselContent>
+          <CarouselContent className="-ml-4">
             {testimonials.map((testimonial, index) => (
-              <CarouselItem key={index}>
-                <div className="p-1">
-                  <Card className="text-left">
-                    <CardContent className="p-6">
-                      <p className="mb-4 text-foreground/80 italic">"{testimonial.quote}"</p>
-                      <div className="text-right">
-                        <p className="font-bold text-primary">{testimonial.name}</p>
-                        <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+              <CarouselItem key={index} className="pl-4 md:basis-1/2">
+                <div className="p-1 h-full">
+                  <Card className="text-left h-full flex flex-col">
+                    <CardContent className="p-6 flex-grow flex flex-col">
+                      <div className="flex items-center mb-4">
+                        <Avatar className="h-12 w-12 mr-4">
+                           <AvatarImage src={`https://picsum.photos/seed/${testimonial.name}/48/48`} data-ai-hint={testimonial.imageHint} alt={testimonial.name} />
+                          <AvatarFallback>{testimonial.initials}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="font-bold text-primary">{testimonial.name}</p>
+                          <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                        </div>
                       </div>
+                      <p className="text-foreground/80 italic flex-grow">"{testimonial.quote}"</p>
                     </CardContent>
                   </Card>
                 </div>
