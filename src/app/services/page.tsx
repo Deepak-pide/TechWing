@@ -27,7 +27,7 @@ const services = [
 const plans = [
     {
         name: 'Basic',
-        price: '$49',
+        price: '₹3999',
         priceDetail: '/month/field',
         features: [
             'Basic Crop Health Monitoring',
@@ -40,7 +40,7 @@ const plans = [
     },
     {
         name: 'Pro',
-        price: '$99',
+        price: '₹7999',
         priceDetail: '/month/field',
         features: [
             'Advanced Health & Pest Detection',
