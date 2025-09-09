@@ -1,7 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from "@/components/ui/card";
 import { Sun, Cloudy, CloudSunRain, CloudRain } from "lucide-react";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 const forecast = [
   { day: "Monday", temp: "24°C", icon: Sun, description: "Sunny" },
@@ -22,6 +25,7 @@ export default function DashboardPage() {
       <Card className="mb-8">
         <CardHeader>
           <CardTitle className="font-headline">Recent Detections</CardTitle>
+          <CardDescription>Detected potential issues in your Wheat crop.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="relative aspect-video w-full">
@@ -37,6 +41,13 @@ export default function DashboardPage() {
             <div className="absolute top-[65%] left-[45%] h-4 w-4 rounded-full bg-red-500 animate-pulse"></div>
           </div>
         </CardContent>
+        <CardFooter className="justify-end">
+            <Link href="/report">
+                <Button>
+                    View Report <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+            </Link>
+        </CardFooter>
       </Card>
       
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
