@@ -23,8 +23,8 @@ export default function ServicesPage() {
   return (
     <div className="container mx-auto p-4 md:p-8">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold font-headline tracking-tight text-foreground">Our Services</h1>
-        <p className="mt-2 text-lg text-muted-foreground max-w-2xl mx-auto">Innovative solutions to help you cultivate a smarter, more productive, and sustainable farm.</p>
+        <h1 className="text-4xl font-bold font-headline tracking-tight text-foreground">What We Do</h1>
+        <p className="mt-2 text-lg text-primary font-semibold uppercase tracking-wider">Services We Offer</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {services.map((service) => {
