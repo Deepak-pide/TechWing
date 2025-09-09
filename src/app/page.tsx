@@ -26,7 +26,7 @@ export default function DashboardPage() {
         <CardContent>
           <div className="relative aspect-video w-full">
             <Image 
-              src="/field.jpg" 
+              src="https://images.unsplash.com/photo-1524553496250-1a722745ae00?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmYXJtbGFuZHxlbnwwfHx8fDE3NTc0MTI2NjB8MA&ixlib=rb-4.1.0&q=80&w=1080" 
               alt="Farm field with detections" 
               fill 
               className="rounded-md object-cover"
