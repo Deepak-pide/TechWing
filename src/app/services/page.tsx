@@ -27,7 +27,7 @@ const services = [
 const plans = [
     {
         name: 'BASIC PACKAGE',
-        price: '₹5,000-₹7,000',
+        price: '5,000-7,000',
         features: [
             '~ 6-8 acre of pesticide spraying',
             '~ Monthly field surveillance',
@@ -38,7 +38,7 @@ const plans = [
     },
     {
         name: 'ADVANCED PACKAGE',
-        price: '₹10,000-₹15,000',
+        price: '10,000-15,000',
         features: [
             '~ 12-18 acre of pesticide spraying',
             '~ Bi-weekly field surveillance & disease detection',
@@ -49,7 +49,7 @@ const plans = [
     },
     {
         name: 'PREMIUM PACKAGE',
-        price: '₹20,000-₹30,000',
+        price: '20,000-30,000',
         features: [
             '~ 25+ acre of pesticide spraying',
             '~ Weekly surveillance & disease detection',
@@ -101,7 +101,7 @@ export default function ServicesPage() {
                 <CardTitle className="font-headline">{plan.name}</CardTitle>
                 <CardDescription>
                   <span className="text-3xl font-bold text-foreground">
-                    {plan.price}
+                    <span className="font-normal">₹</span>{plan.price}
                   </span>
                 </CardDescription>
               </CardHeader>
