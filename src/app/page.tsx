@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 
 export default function HomePage() {
@@ -46,6 +47,25 @@ export default function HomePage() {
               className="object-cover rounded-lg"
               data-ai-hint="drone scanning field"
             />
+          </div>
+        </div>
+      </section>
+       <section className="bg-muted/50 py-16">
+        <div className="container mx-auto text-center">
+          <h2 className="text-3xl font-bold font-headline mb-10">Why Choose Us</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="flex flex-col items-center">
+              <h3 className="text-5xl font-bold text-primary">300+</h3>
+              <p className="mt-2 text-lg text-muted-foreground">Regular Customers</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <h3 className="text-5xl font-bold text-primary">30+</h3>
+              <p className="mt-2 text-lg text-muted-foreground">Professional Engineering</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <h3 className="text-5xl font-bold text-primary">300+</h3>
+              <p className="mt-2 text-lg text-muted-foreground">Points of Sale Goods</p>
+            </div>
           </div>
         </div>
       </section>
