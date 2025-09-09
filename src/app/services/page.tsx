@@ -101,7 +101,7 @@ export default function ServicesPage() {
                 <CardTitle className="font-headline">{plan.name}</CardTitle>
                 <CardDescription>
                   <span className="text-3xl font-bold text-foreground">
-                    <span className="font-normal">₹</span>{plan.price.substring(1)}
+                    {plan.price}
                   </span>
                 </CardDescription>
               </CardHeader>
