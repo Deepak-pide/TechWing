@@ -5,7 +5,7 @@ import { Check } from "lucide-react";
 
 const services = [
   {
-    image: "/precision-agriculture.jpg",
+    image: "/drone-survilience.jpg",
     imageHint: "precision agriculture drone",
     title: "PRECISION AGRICULTURE",
     description: "Utilize drones equipped with advanced sensors to collect data on crop health, soil conditions, and irrigation needs with precision and efficiency.",
@@ -17,7 +17,7 @@ const services = [
     description: "Monitor crop growth stages, detect pests, diseases, and other issues early on, allowing for targeted interventions and improved yields.",
   },
   {
-    image: "/spraying-service.jpg",
+    image: "/dronescan.jpg",
     imageHint: "drone spraying field",
     title: "SPRAYING SERVICE",
     description: "Offering drone-based spraying services for precise application of fertilizers, pesticides, and herbicides, reducing chemical usage and environmental impact.",
@@ -73,7 +73,7 @@ export default function ServicesPage() {
               <CardHeader className="p-0">
                 <div className="relative aspect-video w-full">
                     <Image
-                        src={`https://picsum.photos/600/400?random=${Math.random()}`}
+                        src={service.image}
                         alt={service.title}
                         fill
                         className="object-cover rounded-t-lg"
