@@ -1,9 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Drone, Microscope, Leaf } from "lucide-react";
+import { Airplay, Microscope, Leaf } from "lucide-react";
 
 const services = [
   {
-    icon: Drone,
+    icon: Airplay,
     title: "Precision Drone Spraying",
     description: "Efficient and targeted pesticide and fertilizer application using state-of-the-art drones. Reduce waste and environmental impact while maximizing crop coverage.",
   },
