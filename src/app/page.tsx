@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import Testimonials from "./Testimonials";
 
 export default function HomePage() {
   return (
@@ -72,6 +73,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      <Testimonials />
       <section className="py-16">
         <div className="container mx-auto max-w-xl">
           <div className="text-center mb-12">
