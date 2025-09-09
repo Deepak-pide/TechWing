@@ -19,10 +19,26 @@ const nextDays = forecast.slice(1, 5);
 export default function DashboardPage() {
   return (
     <div className="container mx-auto p-4 md:p-8">
-      <div className="mb-8">
-
-      </div>
-
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle className="font-headline">Recent Detections</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="relative aspect-video w-full">
+            <Image 
+              src="https://picsum.photos/800/450" 
+              alt="Farm field with detections" 
+              fill 
+              className="rounded-md object-cover"
+              data-ai-hint="farm fields satellite"
+            />
+            <div className="absolute top-[20%] left-[30%] h-4 w-4 rounded-full bg-red-500 animate-pulse"></div>
+            <div className="absolute top-[50%] left-[60%] h-4 w-4 rounded-full bg-red-500 animate-pulse"></div>
+            <div className="absolute top-[65%] left-[45%] h-4 w-4 rounded-full bg-red-500 animate-pulse"></div>
+          </div>
+        </CardContent>
+      </Card>
+      
       <Card className="mb-8">
         <CardHeader>
           <CardTitle className="font-headline">Weather Forecast</CardTitle>
