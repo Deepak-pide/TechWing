@@ -26,44 +26,36 @@ const services = [
 
 const plans = [
     {
-        name: 'Basic',
-        price: '₹3999',
-        priceDetail: '/month/field',
+        name: 'BASIC PACKAGE',
+        price: '₹5,000-₹7,000',
         features: [
-            'Basic Crop Health Monitoring',
-            'Standard Resolution Imagery',
-            'Email Support',
-            'Monthly Reports'
+            '~ 6-8 acre of pesticide spraying',
+            '~ Monthly field surveillance',
+            '~ Basic crop health report'
         ],
         buttonText: 'Choose Basic',
         variant: 'outline'
     },
     {
-        name: 'Pro',
-        price: '₹7999',
-        priceDetail: '/month/field',
+        name: 'ADVANCED PACKAGE',
+        price: '₹10,000-₹15,000',
         features: [
-            'Advanced Health & Pest Detection',
-            'High-Resolution Imagery',
-            'Priority Email & Phone Support',
-            'Weekly In-depth Reports',
-            'Pesticide Spraying Plan'
+            '~ 12-18 acre of pesticide spraying',
+            '~ Bi-weekly field surveillance & disease detection',
+            '~ Priority report delivery'
         ],
-        buttonText: 'Choose Pro',
+        buttonText: 'Choose Advanced',
         variant: 'default'
     },
     {
-        name: 'Enterprise',
-        price: 'Custom',
-        priceDetail: '',
+        name: 'PREMIUM PACKAGE',
+        price: '₹20,000-₹30,000',
         features: [
-            'All Pro Features',
-            'Multi-Field Management',
-            'API Access & Integrations',
-            'Dedicated Account Manager',
-            'Custom Feature Development'
+            '~ 25+ acre of pesticide spraying',
+            '~ Weekly surveillance & disease detection',
+            '~ Real-time field monitoring'
         ],
-        buttonText: 'Contact Us',
+        buttonText: 'Choose Premium',
         variant: 'outline'
     }
 ]
@@ -104,20 +96,19 @@ export default function ServicesPage() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {plans.map((plan) => (
-            <Card key={plan.name} className={`flex flex-col ${plan.name === 'Pro' ? 'border-primary' : ''}`}>
+            <Card key={plan.name} className={`flex flex-col ${plan.name === 'ADVANCED PACKAGE' ? 'border-primary' : ''}`}>
               <CardHeader>
                 <CardTitle className="font-headline">{plan.name}</CardTitle>
                 <CardDescription>
                   <span className="text-4xl font-bold text-foreground">{plan.price}</span>
-                  <span className="text-muted-foreground">{plan.priceDetail}</span>
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex-grow space-y-4">
                 <ul className="space-y-3">
                   {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2">
-                      <Check className="h-4 w-4 text-primary" />
-                      <span className="text-muted-foreground">{feature}</span>
+                    <li key={feature} className="flex items-start gap-2">
+                      <span className="text-primary mt-1">&#8764;</span>
+                      <span className="text-muted-foreground">{feature.substring(2)}</span>
                     </li>
                   ))}
                 </ul>
