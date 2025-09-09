@@ -5,7 +5,7 @@ import AppLayout from "@/components/layout/AppLayout";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: "DigitalFarm",
+  title: "BetaFlight",
   description: "Modern Farming Management",
 };
 

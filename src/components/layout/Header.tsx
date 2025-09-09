@@ -22,7 +22,7 @@ export default function Header() {
       <div className="container flex h-14 items-center">
         <Link href="/" className="mr-6 flex items-center space-x-2">
           <Sprout className="h-6 w-6 text-primary" />
-          <span className="font-bold font-headline">DigitalFarm</span>
+          <span className="font-bold font-headline">BetaFlight</span>
         </Link>
         {!isMobile && (
           <nav className="flex items-center space-x-6 text-sm font-medium">
