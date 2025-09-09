@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Leaf } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Button } from "@/components/ui/button";
 
 const navLinks = [
   { href: "/", label: "Dashboard" },
@@ -38,6 +39,11 @@ export default function Header() {
             ))}
           </nav>
         )}
+        <div className="ml-auto">
+          <Link href="/login">
+            <Button>Login</Button>
+          </Link>
+        </div>
       </div>
     </header>
   );
