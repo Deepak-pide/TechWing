@@ -1,7 +1,32 @@
+
+"use client";
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, DollarSign, Droplets } from "lucide-react";
 import Image from "next/image";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Legend, Tooltip } from "recharts";
+import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
+
+const chartData = [
+  { month: "January", infection: 35, pesticide: 65 },
+  { month: "February", infection: 42, pesticide: 70 },
+  { month: "March", infection: 55, pesticide: 80 },
+  { month: "April", infection: 40, pesticide: 60 },
+  { month: "May", infection: 30, pesticide: 50 },
+  { month: "June", infection: 25, pesticide: 45 },
+];
+
+const chartConfig = {
+  pesticide: {
+    label: "Pesticide Usage (%)",
+    color: "hsl(var(--chart-1))",
+  },
+  infection: {
+    label: "Infection Rate (%)",
+    color: "hsl(var(--chart-2))",
+  },
+};
 
 export default function ReportPage() {
   return (
@@ -11,12 +36,12 @@ export default function ReportPage() {
         <p className="text-muted-foreground">Detailed analysis for Wheat crop, generated on {new Date().toLocaleDateString()}</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         <div className="col-span-1">
           <Card>
             <CardHeader>
-              <CardTitle>Field Analysis</CardTitle>
-              <CardDescription>Satellite imagery showing areas of concern.</CardDescription>
+              <CardTitle>Crop Infection Heatmap</CardTitle>
+              <CardDescription>Real-time color-coded map showing areas of concern.</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="relative aspect-video w-full">
@@ -75,6 +100,66 @@ export default function ReportPage() {
             </CardContent>
           </Card>
         </div>
+      </div>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+         <Card className="lg:col-span-2">
+            <CardHeader>
+                <CardTitle>Infection Rate vs. Pesticide Usage</CardTitle>
+                <CardDescription>Monthly trend analysis of infection rates and pesticide application.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+                    <BarChart accessibilityLayer data={chartData}>
+                        <CartesianGrid vertical={false} />
+                        <XAxis
+                            dataKey="month"
+                            tickLine={false}
+                            tickMargin={10}
+                            axisLine={false}
+                            tickFormatter={(value) => value.slice(0, 3)}
+                        />
+                         <YAxis
+                            tickLine={false}
+                            axisLine={false}
+                            tickMargin={10}
+                            unit="%"
+                         />
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Legend />
+                        <Bar dataKey="infection" fill="var(--color-infection)" radius={4} />
+                        <Bar dataKey="pesticide" fill="var(--color-pesticide)" radius={4} />
+                    </BarChart>
+                </ChartContainer>
+            </CardContent>
+        </Card>
+
+        <Card>
+            <CardHeader>
+                <CardTitle>Key Metrics</CardTitle>
+                <CardDescription>Summary of savings and reductions.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+                <div className="flex items-center space-x-4">
+                    <div className="flex-shrink-0 bg-primary/10 text-primary p-3 rounded-full">
+                        <DollarSign className="h-6 w-6" />
+                    </div>
+                    <div>
+                        <p className="text-muted-foreground">Estimated Cost Savings</p>
+                        <p className="text-2xl font-bold">$1,250</p>
+                    </div>
+                </div>
+                 <div className="flex items-center space-x-4">
+                    <div className="flex-shrink-0 bg-accent/20 text-accent p-3 rounded-full">
+                        <Droplets className="h-6 w-6" />
+                    </div>
+                    <div>
+                        <p className="text-muted-foreground">Pesticide Reduction</p>
+                        <p className="text-2xl font-bold">15%</p>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
       </div>
     </div>
   );
