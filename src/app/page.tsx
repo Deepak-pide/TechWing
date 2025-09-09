@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Sun, Cloudy, CloudSunRain, CloudRain } from "lucide-react";
 import Image from "next/image";
+import { Separator } from "@/components/ui/separator";
 
 const forecast = [
   { day: "Monday", temp: "24°C", icon: Sun, description: "Sunny" },
@@ -12,6 +13,9 @@ const forecast = [
   { day: "Sunday", temp: "25°C", icon: Sun, description: "Sunny" },
 ];
 
+const today = forecast[0];
+const nextDays = forecast.slice(1);
+
 export default function DashboardPage() {
   return (
     <div className="container mx-auto p-4 md:p-8">
@@ -22,18 +26,24 @@ export default function DashboardPage() {
 
       <Card className="mb-8">
         <CardHeader>
-          <CardTitle className="font-headline">7-Day Weather Forecast</CardTitle>
+          <CardTitle className="font-headline">Weather Forecast</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4 text-center">
-            {forecast.map((day) => {
+          <div className="flex flex-col items-center text-center mb-6">
+            <h2 className="text-xl font-semibold">{today.day}</h2>
+            <today.icon className="h-16 w-16 text-muted-foreground my-2" />
+            <p className="font-bold text-4xl">{today.temp}</p>
+            <p className="text-muted-foreground">{today.description}</p>
+          </div>
+          <Separator className="my-4" />
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-4 text-center">
+            {nextDays.map((day) => {
               const Icon = day.icon;
               return (
-                <div key={day.day} className="flex flex-col items-center space-y-2">
-                  <p className="font-medium">{day.day}</p>
-                  <Icon className="h-8 w-8 text-muted-foreground" />
-                  <p className="font-bold text-lg">{day.temp}</p>
-                  <p className="text-xs text-muted-foreground">{day.description}</p>
+                <div key={day.day} className="flex flex-col items-center space-y-1">
+                  <p className="font-medium text-sm">{day.day.substring(0,3)}</p>
+                  <Icon className="h-6 w-6 text-muted-foreground" />
+                  <p className="font-bold text-md">{day.temp}</p>
                 </div>
               );
             })}
