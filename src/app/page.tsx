@@ -19,7 +19,7 @@ const forecast = [
 const today = forecast[0];
 const nextDays = forecast.slice(1, 5);
 
-export default function DashboardPage() {
+export default function HomePage() {
   return (
     <div className="container mx-auto p-4 md:p-8">
       <Card className="mb-8">

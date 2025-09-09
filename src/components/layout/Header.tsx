@@ -7,7 +7,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 
 const navLinks = [
-  { href: "/", label: "Dashboard" },
+  { href: "/", label: "Home" },
   { href: "/crops", label: "Crops" },
   { href: "/profile", label: "Profile" },
 ];

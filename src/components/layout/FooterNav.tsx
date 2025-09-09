@@ -6,7 +6,7 @@ import { LayoutGrid, User, Wheat } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { href: "/", label: "Dashboard", icon: LayoutGrid },
+  { href: "/", label: "Home", icon: LayoutGrid },
   { href: "/crops", label: "Crops", icon: Wheat },
   { href: "/profile", label: "Profile", icon: User },
 ];
