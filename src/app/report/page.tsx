@@ -1,12 +1,15 @@
 
 "use client";
 
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertTriangle, DollarSign, Droplets } from "lucide-react";
 import Image from "next/image";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Legend } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { Slider } from "@/components/ui/slider";
+import { Label } from "@/components/ui/label";
 
 const chartData = [
   { month: "January", infection: 35, pesticide: 65 },
@@ -28,7 +31,27 @@ const chartConfig = {
   },
 };
 
+const heatmapData = Array.from({ length: 100 }, (_, i) => ({
+  id: i,
+  infection: Math.random() * 100,
+}));
+
+const getInfectionColor = (infection: number, opacity: number) => {
+  let color;
+  if (infection < 20) {
+    color = `rgba(74, 222, 128, ${opacity})`; // green
+  } else if (infection < 60) {
+    color = `rgba(251, 191, 36, ${opacity})`; // yellow
+  } else {
+    color = `rgba(239, 68, 68, ${opacity})`; // red
+  }
+  return color;
+};
+
+
 export default function ReportPage() {
+  const [heatmapOpacity, setHeatmapOpacity] = useState(0.5);
+
   return (
     <div className="container mx-auto p-4 md:p-8">
       <div className="mb-8">
@@ -52,9 +75,28 @@ export default function ReportPage() {
                   className="rounded-md object-cover"
                   data-ai-hint="farm fields satellite"
                 />
-                <div className="absolute top-[20%] left-[30%] h-4 w-4 rounded-full bg-red-500 animate-pulse ring-2 ring-white"></div>
-                <div className="absolute top-[50%] left-[60%] h-4 w-4 rounded-full bg-red-500 animate-pulse ring-2 ring-white"></div>
-                <div className="absolute top-[65%] left-[45%] h-4 w-4 rounded-full bg-red-500 animate-pulse ring-2 ring-white"></div>
+                <div className="absolute inset-0 grid grid-cols-10 grid-rows-10">
+                  {heatmapData.map((cell) => (
+                    <div
+                      key={cell.id}
+                      className="border border-white/10"
+                      style={{
+                        backgroundColor: getInfectionColor(cell.infection, heatmapOpacity),
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+              <div className="mt-4 space-y-3">
+                <Label htmlFor="heatmap-opacity">Heatmap Opacity</Label>
+                <Slider
+                  id="heatmap-opacity"
+                  min={0}
+                  max={1}
+                  step={0.1}
+                  value={[heatmapOpacity]}
+                  onValueChange={(value) => setHeatmapOpacity(value[0])}
+                />
               </div>
             </CardContent>
           </Card>
