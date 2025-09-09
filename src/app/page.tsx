@@ -3,7 +3,6 @@ import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function HomePage() {
   return (
@@ -74,35 +73,16 @@ export default function HomePage() {
         </div>
       </section>
       <section className="py-16">
-        <div className="container mx-auto">
+        <div className="container mx-auto max-w-xl">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold font-headline">Our Contact</h2>
             <p className="text-primary font-semibold">Request A Call Back</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-            <div className="bg-muted/50 p-8 rounded-lg">
-              <h3 className="text-2xl font-bold font-headline mb-6">Get in touch</h3>
-              <div className="space-y-4">
-                  <div className="flex items-center gap-4">
-                      <Mail className="h-6 w-6 text-primary" />
-                      <span>info@betaflight.com</span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                      <Phone className="h-6 w-6 text-primary" />
-                      <span>+1 (234) 567-890</span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                      <MapPin className="h-6 w-6 text-primary" />
-                      <span>123 Farm Road, Green Valley, CA</span>
-                  </div>
-              </div>
-            </div>
-            <div className="space-y-4">
-              <Input type="text" placeholder="Your Name" />
-              <Input type="tel" placeholder="Phone Number" />
-              <Textarea placeholder="Message" rows={5} />
-              <Button className="w-full">Send</Button>
-            </div>
+          <div className="space-y-4">
+            <Input type="text" placeholder="Your Name" />
+            <Input type="tel" placeholder="Phone Number" />
+            <Textarea placeholder="Message" rows={5} />
+            <Button className="w-full">Send</Button>
           </div>
         </div>
       </section>
