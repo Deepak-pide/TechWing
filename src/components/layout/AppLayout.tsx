@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import Header from "./Header";
 import FooterNav from "./FooterNav";
+import Footer from "./Footer";
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   const isMobile = useIsMobile();
@@ -14,6 +15,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
       <main className={`flex-1 ${isMobile ? 'pb-20 pt-4' : 'py-8'}`}>
         {children}
       </main>
+      <Footer />
       {isMobile && <FooterNav />}
     </div>
   );
