@@ -14,7 +14,7 @@ const forecast = [
 ];
 
 const today = forecast[0];
-const nextDays = forecast.slice(1);
+const nextDays = forecast.slice(1, 5);
 
 export default function DashboardPage() {
   return (
