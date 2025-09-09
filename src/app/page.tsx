@@ -26,7 +26,7 @@ export default function DashboardPage() {
         <CardContent>
           <div className="relative aspect-video w-full">
             <Image 
-              src="https://picsum.photos/800/450" 
+              src="/field.jpg" 
               alt="Farm field with detections" 
               fill 
               className="rounded-md object-cover"
@@ -73,7 +73,7 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
              <div className="relative aspect-video w-full">
-              <Image src="https://picsum.photos/800/450" alt="Farm fields map" fill className="rounded-md object-cover" data-ai-hint="farm fields"/>
+              <Image src="/field.jpg" alt="Farm fields map" fill className="rounded-md object-cover" data-ai-hint="farm fields"/>
             </div>
           </CardContent>
         </Card>
