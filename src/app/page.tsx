@@ -39,41 +39,30 @@ export default function DashboardPage() {
         </CardContent>
       </Card>
       
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle className="font-headline">Weather Forecast</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col items-center text-center mb-6">
-            <h2 className="text-xl font-semibold">{today.day}</h2>
-            <today.icon className="h-16 w-16 text-muted-foreground my-2" />
-            <p className="font-bold text-4xl">{today.temp}</p>
-            <p className="text-muted-foreground">{today.description}</p>
-          </div>
-          <Separator className="my-4" />
-          <div className="flex gap-4 text-center overflow-x-auto pb-2">
-            {nextDays.map((day) => {
-              const Icon = day.icon;
-              return (
-                <div key={day.day} className="flex flex-col items-center space-y-1 min-w-[4rem]">
-                  <p className="font-medium text-sm">{day.day.substring(0,3)}</p>
-                  <Icon className="h-6 w-6 text-muted-foreground" />
-                  <p className="font-bold text-md">{day.temp}</p>
-                </div>
-              );
-            })}
-          </div>
-        </CardContent>
-      </Card>
-
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+        <Card>
           <CardHeader>
-            <CardTitle className="font-headline">Farm Fields</CardTitle>
+            <CardTitle className="font-headline">Weather Forecast</CardTitle>
           </CardHeader>
           <CardContent>
-             <div className="relative aspect-video w-full">
-              <Image src="/field.jpg" alt="Farm fields map" fill className="rounded-md object-cover" data-ai-hint="farm fields"/>
+            <div className="flex flex-col items-center text-center mb-6">
+              <h2 className="text-xl font-semibold">{today.day}</h2>
+              <today.icon className="h-16 w-16 text-muted-foreground my-2" />
+              <p className="font-bold text-4xl">{today.temp}</p>
+              <p className="text-muted-foreground">{today.description}</p>
+            </div>
+            <Separator className="my-4" />
+            <div className="flex gap-4 text-center overflow-x-auto pb-2">
+              {nextDays.map((day) => {
+                const Icon = day.icon;
+                return (
+                  <div key={day.day} className="flex flex-col items-center space-y-1 min-w-[4rem]">
+                    <p className="font-medium text-sm">{day.day.substring(0,3)}</p>
+                    <Icon className="h-6 w-6 text-muted-foreground" />
+                    <p className="font-bold text-md">{day.temp}</p>
+                  </div>
+                );
+              })}
             </div>
           </CardContent>
         </Card>
