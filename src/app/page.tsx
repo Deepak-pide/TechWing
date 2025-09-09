@@ -1,20 +1,21 @@
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import Image from "next/image";
 
 export default function HomePage() {
   return (
-    <div className="container mx-auto p-4 md:p-8">
-      <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
-        <div></div>
-        <div className="relative aspect-square h-auto w-full max-w-md mx-auto lg:max-w-none">
-          <Image
-            src="https://images.unsplash.com/photo-1560493676-04071c5f467b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmYXJtZXJ8ZW58MHx8fHwxNzU4MjY4ODgyfDA&ixlib=rb-4.1.0&q=80&w=1080"
-            alt="Farmer in a field"
-            fill
-            className="rounded-lg object-cover"
-            data-ai-hint="farmer field"
-          />
+    <div className="relative w-full h-[calc(100vh-150px)]">
+      <Image
+        src="https://images.unsplash.com/photo-1464977462372-75c7b3c43147?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        alt="Farmland"
+        fill
+        className="object-cover"
+        data-ai-hint="farmland landscape"
+        priority
+      />
+      <div className="absolute inset-0 bg-black/30" />
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="text-center text-white">
+          <h1 className="text-4xl md:text-6xl font-bold font-headline">Welcome to BetaFlight</h1>
+          <p className="mt-4 text-lg md:text-xl">Your partner in modern farming.</p>
         </div>
       </div>
     </div>
