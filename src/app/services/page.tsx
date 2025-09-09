@@ -100,7 +100,9 @@ export default function ServicesPage() {
               <CardHeader>
                 <CardTitle className="font-headline">{plan.name}</CardTitle>
                 <CardDescription>
-                  <span className="text-4xl font-bold text-foreground whitespace-nowrap">{plan.price}</span>
+                  <span className="text-3xl font-bold text-foreground">
+                    <span className="font-normal">₹</span>{plan.price.substring(1)}
+                  </span>
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex-grow space-y-4">
