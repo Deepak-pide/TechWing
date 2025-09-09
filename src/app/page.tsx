@@ -1,108 +1,36 @@
-import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from "@/components/ui/card";
-import { Sun, Cloudy, CloudSunRain, CloudRain } from "lucide-react";
-import Image from "next/image";
-import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-
-const forecast = [
-  { day: "Monday", temp: "24°C", icon: Sun, description: "Sunny" },
-  { day: "Tuesday", temp: "22°C", icon: Cloudy, description: "Partly Cloudy" },
-  { day: "Wednesday", temp: "20°C", icon: CloudSunRain, description: "Light Showers" },
-  { day: "Thursday", temp: "21°C", icon: Sun, description: "Sunny" },
-  { day: "Friday", temp: "19°C", icon: CloudRain, description: "Rain" },
-  { day: "Saturday", temp: "23°C", icon: Sun, description: "Sunny" },
-  { day: "Sunday", temp: "25°C", icon: Sun, description: "Sunny" },
-];
-
-const today = forecast[0];
-const nextDays = forecast.slice(1, 5);
+import Image from "next/image";
 
 export default function HomePage() {
   return (
     <div className="container mx-auto p-4 md:p-8">
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle className="font-headline">Recent Detections</CardTitle>
-          <CardDescription>Detected potential issues in your Wheat crop.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="relative aspect-video w-full">
-            <Image 
-              src="https://images.unsplash.com/photo-1524553496250-1a722745ae00?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmYXJtbGFuZHxlbnwwfHx8fDE3NTc0MTI2NjB8MA&ixlib=rb-4.1.0&q=80&w=1080" 
-              alt="Farm field with detections" 
-              fill 
-              className="rounded-md object-cover"
-              data-ai-hint="farm fields satellite"
-            />
-            <div className="absolute top-[20%] left-[30%] h-4 w-4 rounded-full bg-red-500 animate-pulse"></div>
-            <div className="absolute top-[50%] left-[60%] h-4 w-4 rounded-full bg-red-500 animate-pulse"></div>
-            <div className="absolute top-[65%] left-[45%] h-4 w-4 rounded-full bg-red-500 animate-pulse"></div>
-          </div>
-        </CardContent>
-        <CardFooter className="justify-end">
-            <Link href="/report">
-                <Button>
-                    View Report <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
+      <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+        <div className="text-center lg:text-left">
+          <h1 className="text-4xl font-bold tracking-tight text-foreground font-headline md:text-5xl lg:text-6xl">
+            Smarter Farming, Healthier Crops
+          </h1>
+          <p className="mt-6 text-lg text-muted-foreground">
+            BetaFlight provides cutting-edge analysis and insights to help you manage your farm, detect diseases early, and optimize your yield.
+          </p>
+          <div className="mt-8 flex justify-center gap-4 lg:justify-start">
+            <Link href="/login">
+              <Button size="lg">Get Started</Button>
             </Link>
-        </CardFooter>
-      </Card>
-      
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-headline">Weather Forecast</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col items-center text-center mb-6">
-              <h2 className="text-xl font-semibold">{today.day}</h2>
-              <today.icon className="h-16 w-16 text-muted-foreground my-2" />
-              <p className="font-bold text-4xl">{today.temp}</p>
-              <p className="text-muted-foreground">{today.description}</p>
-            </div>
-            <Separator className="my-4" />
-            <div className="flex gap-4 text-center overflow-x-auto pb-2">
-              {nextDays.map((day) => {
-                const Icon = day.icon;
-                return (
-                  <div key={day.day} className="flex flex-col items-center space-y-1 min-w-[4rem]">
-                    <p className="font-medium text-sm">{day.day.substring(0,3)}</p>
-                    <Icon className="h-6 w-6 text-muted-foreground" />
-                    <p className="font-bold text-md">{day.temp}</p>
-                  </div>
-                );
-              })}
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-headline">My Crops</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-4">
-              <li className="flex items-center justify-between">
-                <span>Wheat</span>
-                <span className="font-medium">150 Acres</span>
-              </li>
-              <li className="flex items-center justify-between">
-                <span>Corn</span>
-                <span className="font-medium">100 Acres</span>
-              </li>
-              <li className="flex items-center justify-between">
-                <span>Soybeans</span>
-                <span className="font-medium">80 Acres</span>
-              </li>
-              <li className="flex items-center justify-between">
-                <span>Potatoes</span>
-                <span className="font-medium">30 Acres</span>
-              </li>
-            </ul>
-          </CardContent>
-        </Card>
+            <Link href="/report">
+                <Button size="lg" variant="outline">View Demo Report</Button>
+            </Link>
+          </div>
+        </div>
+        <div className="relative aspect-square h-auto w-full max-w-md mx-auto lg:max-w-none">
+          <Image
+            src="https://images.unsplash.com/photo-1560493676-04071c5f467b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmYXJtZXJ8ZW58MHx8fHwxNzU4MjY4ODgyfDA&ixlib=rb-4.1.0&q=80&w=1080"
+            alt="Farmer in a field"
+            fill
+            className="rounded-lg object-cover"
+            data-ai-hint="farmer field"
+          />
+        </div>
       </div>
     </div>
   );
