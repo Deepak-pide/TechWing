@@ -20,8 +20,7 @@ export default function DashboardPage() {
   return (
     <div className="container mx-auto p-4 md:p-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight text-foreground font-headline">Welcome back, Farmer!</h1>
-        <p className="text-muted-foreground">Here's an overview of your farm's performance and weather forecast.</p>
+
       </div>
 
       <Card className="mb-8">
@@ -36,11 +35,11 @@ export default function DashboardPage() {
             <p className="text-muted-foreground">{today.description}</p>
           </div>
           <Separator className="my-4" />
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-4 text-center">
+          <div className="flex gap-4 text-center overflow-x-auto pb-2">
             {nextDays.map((day) => {
               const Icon = day.icon;
               return (
-                <div key={day.day} className="flex flex-col items-center space-y-1">
+                <div key={day.day} className="flex flex-col items-center space-y-1 min-w-[4rem]">
                   <p className="font-medium text-sm">{day.day.substring(0,3)}</p>
                   <Icon className="h-6 w-6 text-muted-foreground" />
                   <p className="font-bold text-md">{day.temp}</p>
