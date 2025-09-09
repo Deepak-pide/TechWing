@@ -1,7 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertTriangle, Leaf, Thermometer, Wind, Droplets } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 import Image from "next/image";
 
 export default function ReportPage() {
@@ -12,8 +11,8 @@ export default function ReportPage() {
         <p className="text-muted-foreground">Detailed analysis for Wheat crop, generated on {new Date().toLocaleDateString()}</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
+      <div className="grid grid-cols-1 gap-8">
+        <div className="col-span-1">
           <Card className="mb-8">
             <CardHeader>
               <CardTitle>Field Analysis</CardTitle>
@@ -53,61 +52,6 @@ export default function ReportPage() {
                   </ul>
                 </AlertDescription>
               </Alert>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="space-y-8">
-          <Card>
-            <CardHeader>
-              <CardTitle>Crop Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center gap-4">
-                <Leaf className="h-6 w-6 text-muted-foreground" />
-                <div>
-                  <p className="font-semibold">Wheat</p>
-                  <p className="text-sm text-muted-foreground">Triticum aestivum</p>
-                </div>
-              </div>
-              <div>
-                <p className="font-semibold">Growth Stage</p>
-                <Badge variant="outline" className="mt-1">Growing</Badge>
-              </div>
-              <div>
-                <p className="font-semibold">Acres</p>
-                <p className="text-sm text-muted-foreground">150</p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Weather Conditions</CardTitle>
-              <CardDescription>Favorable for fungal growth.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Thermometer className="h-5 w-5 text-muted-foreground" />
-                  <span>Temperature</span>
-                </div>
-                <span className="font-semibold">24°C</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Droplets className="h-5 w-5 text-muted-foreground" />
-                  <span>Humidity</span>
-                </div>
-                <span className="font-semibold">82%</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Wind className="h-5 w-5 text-muted-foreground" />
-                  <span>Wind</span>
-                </div>
-                <span className="font-semibold">5 km/h</span>
-              </div>
             </CardContent>
           </Card>
         </div>
