@@ -4,7 +4,7 @@ export default function HomePage() {
   return (
     <div className="relative w-full h-[calc(100vh-150px)]">
       <Image
-        src="https://images.unsplash.com/photo-1464977462372-75c7b3c43147?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        src="/Farmland.jpg"
         alt="Farmland"
         fill
         className="object-cover"
