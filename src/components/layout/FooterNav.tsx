@@ -31,10 +31,7 @@ export default function FooterNav() {
 
   return (
     <footer className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <nav className={cn("grid h-16", {
-        "grid-cols-3": isAuthenticated,
-        "grid-cols-3": !isAuthenticated, // loggedOutLinks also has 3 items
-      })}>
+      <nav className="grid h-16 grid-cols-3">
         {navLinks.map((link) => {
           const Icon = link.icon;
           const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
