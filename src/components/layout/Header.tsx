@@ -5,8 +5,10 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
-const navLinks = [
+const loggedInLinks = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services" },
   { href: "/dashboard", label: "Dashboard" },
@@ -14,9 +16,25 @@ const navLinks = [
   { href: "/profile", label: "Profile" },
 ];
 
+const loggedOutLinks = [
+  { href: "/", label: "Home" },
+  { href: "/services", label: "Services" },
+  { href: "/profile", label: "Profile" },
+];
+
+
 export default function Header() {
   const pathname = usePathname();
   const isMobile = useIsMobile();
+  const { isAuthenticated, logout, loading } = useAuth();
+  const router = useRouter();
+
+  const navLinks = isAuthenticated ? loggedInLinks : loggedOutLinks;
+
+  const handleLogout = () => {
+    logout();
+    router.push("/");
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -41,9 +59,15 @@ export default function Header() {
           </nav>
         )}
         <div className="ml-auto">
-          <Link href="/login">
-            <Button>Login</Button>
-          </Link>
+          {!loading && (
+             isAuthenticated ? (
+                <Button onClick={handleLogout} variant="outline">Logout</Button>
+              ) : (
+                <Link href="/login">
+                  <Button>Login</Button>
+                </Link>
+              )
+          )}
         </div>
       </div>
     </header>

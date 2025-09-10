@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const loginFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }),
@@ -29,6 +31,9 @@ const defaultValues: Partial<LoginFormValues> = {
 
 export default function LoginForm() {
   const { toast } = useToast();
+  const { login } = useAuth();
+  const router = useRouter();
+
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginFormSchema),
     defaultValues,
@@ -36,11 +41,14 @@ export default function LoginForm() {
   });
 
   function onSubmit(data: LoginFormValues) {
+    // In a real app, you'd validate credentials against a server
     console.log(data);
+    login();
     toast({
       title: "Logged In",
       description: "You have successfully logged in.",
     });
+    router.push("/dashboard");
   }
 
   return (
