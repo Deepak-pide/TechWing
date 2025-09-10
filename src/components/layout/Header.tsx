@@ -9,8 +9,6 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 
 const loggedInLinks = [
-  { href: "/", label: "Home" },
-  { href: "/services", label: "Services" },
   { href: "/dashboard", label: "Dashboard" },
   { href: "/crops", label: "Crops" },
   { href: "/profile", label: "Profile" },

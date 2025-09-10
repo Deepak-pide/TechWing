@@ -12,7 +12,6 @@ const commonLinks = [
 ];
 
 const loggedInLinks = [
-  ...commonLinks,
   { href: "/dashboard", label: "Dashboard", icon: BarChartHorizontal },
   { href: "/crops", label: "Crops", icon: Wheat },
   { href: "/profile", label: "Profile", icon: User },
@@ -43,7 +42,7 @@ export default function FooterNav() {
 
   return (
     <footer className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <nav className="grid h-16 grid-cols-5">
+      <nav className={`grid h-16 grid-cols-${isAuthenticated ? loggedInLinks.length : loggedOutLinks.length}`}>
         {(isAuthenticated ? loggedInLinks : loggedOutLinks).map((link) => {
           const Icon = link.icon;
           const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
