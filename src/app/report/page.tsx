@@ -184,7 +184,7 @@ export default function ReportPage() {
             <CardContent className="space-y-6">
                 <div className="flex items-center space-x-4">
                     <div className="flex-shrink-0 bg-primary/10 text-primary p-3 rounded-full">
-                        <span className="text-2xl font-bold">₹</span>
+                        <span className="text-2xl font-bold font-sans">₹</span>
                     </div>
                     <div>
                         <p className="text-muted-foreground">Estimated Cost Savings</p>
