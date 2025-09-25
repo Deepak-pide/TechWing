@@ -122,25 +122,6 @@ export default function ReportPage() {
               </Alert>
             </CardContent>
           </Card>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle>Pesticide Recommendations</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="list-disc list-inside space-y-2 text-sm">
-                <li>
-                  <strong>Fungicide A:</strong> Recommended for early-stage infections. Apply at a rate of 1 liter per hectare.
-                </li>
-                <li>
-                  <strong>Fungicide B:</strong> A more potent option for widespread infections. Requires careful handling and adherence to safety protocols.
-                </li>
-                <li>
-                  <strong>Organic Option:</strong> A neem oil-based solution can be effective in less severe cases. Apply every 7-10 days.
-                </li>
-              </ul>
-            </CardContent>
-          </Card>
         </div>
       </div>
       
