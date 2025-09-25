@@ -20,7 +20,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-black/30" />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white">
-            <h1 className="text-4xl md:text-6xl font-bold font-headline">Welcome to BetaFlight</h1>
+            <h1 className="text-4xl md:text-6xl font-bold font-headline">Welcome to TechWing</h1>
             <p className="mt-4 text-lg md:text-xl">Your partner in modern farming.</p>
           </div>
         </div>

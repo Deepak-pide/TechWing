@@ -184,11 +184,11 @@ export default function ReportPage() {
             <CardContent className="space-y-6">
                 <div className="flex items-center space-x-4">
                     <div className="flex-shrink-0 bg-primary/10 text-primary p-3 rounded-full">
-                        <DollarSign className="h-6 w-6" />
+                        <span className="text-2xl font-bold">₹</span>
                     </div>
                     <div>
                         <p className="text-muted-foreground">Estimated Cost Savings</p>
-                        <p className="text-2xl font-bold">$1,250</p>
+                        <p className="text-2xl font-bold">1,250</p>
                     </div>
                 </div>
                  <div className="flex items-center space-x-4">
