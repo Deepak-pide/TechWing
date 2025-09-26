@@ -38,13 +38,15 @@ const statusConfig = {
 }
 
 export default function SprayingTask({ task, onUpdate, onDelete }: SprayingTaskProps) {
-  const { id, farm, area, threat, status, date, mapImage } = task;
+  const { id, farm, area, threat, status, date, mapImage, polygon } = task;
   const router = useRouter();
 
   const handleAccept = () => {
     onUpdate(id, 'Accepted');
     router.push(`/admin/spraying/${id}`);
   }
+  
+  const polygonPoints = polygon?.map(p => `${p.x},${p.y}`).join(' ');
 
   return (
     <Card className="overflow-hidden">
@@ -56,6 +58,15 @@ export default function SprayingTask({ task, onUpdate, onDelete }: SprayingTaskP
                 fill
                 className="object-cover"
             />
+            {polygon && polygonPoints && (
+              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <polygon
+                  points={polygonPoints}
+                  className="fill-accent/40 stroke-accent stroke-2"
+                  style={{ vectorEffect: 'non-scaling-stroke' }}
+                />
+              </svg>
+            )}
              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
              <h3 className="absolute bottom-2 left-3 text-lg font-bold text-white">{farm}</h3>
         </div>

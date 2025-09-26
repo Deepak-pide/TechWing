@@ -7,6 +7,7 @@ export interface SprayingTask {
     status: 'New' | 'Accepted' | 'Declined' | 'Completed';
     date: string;
     mapImage: string;
+    polygon?: { x: number; y: number; }[];
 }
 
 export const initialTasks: SprayingTask[] = [

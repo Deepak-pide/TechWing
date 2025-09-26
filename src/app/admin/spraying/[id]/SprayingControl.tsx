@@ -23,6 +23,8 @@ export default function SprayingControl({ task }: { task: SprayingTask }) {
         setStatus('filling');
         setTimeout(() => setStatus('ready'), 4000);
     }
+    
+    const polygonPoints = task.polygon?.map(p => `${p.x},${p.y}`).join(' ');
 
     return (
         <div className="container mx-auto p-4 md:p-8">
@@ -50,6 +52,15 @@ export default function SprayingControl({ task }: { task: SprayingTask }) {
                                     fill
                                     className="object-cover"
                                 />
+                                {task.polygon && polygonPoints && (
+                                    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                                        <polygon
+                                        points={polygonPoints}
+                                        className="fill-accent/40 stroke-accent stroke-2"
+                                        style={{ vectorEffect: 'non-scaling-stroke' }}
+                                        />
+                                    </svg>
+                                )}
                                  <div className="absolute inset-0 bg-black/30" />
                             </div>
                         </CardContent>

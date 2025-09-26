@@ -93,14 +93,17 @@ export default function AdminSurveillancePage() {
   }
 
   const handleScheduleSpraying = () => {
+    if (!mapImage) return;
+
     const newTask = {
         id: Date.now(),
         farm: 'Green Valley Farms',
         area: '1.5 Acres',
         threat: 'Powdery Mildew',
-        status: 'New',
+        status: 'New' as const,
         date: new Date().toISOString().split('T')[0],
-        mapImage: 'https://images.unsplash.com/photo-1599839603058-2d79a29d3c10?q=80&w=2070&auto=format&fit=crop'
+        mapImage: mapImage,
+        polygon: points,
     };
     
     try {
