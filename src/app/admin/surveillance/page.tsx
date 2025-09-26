@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -97,6 +98,26 @@ export default function AdminSurveillancePage() {
         };
     }, { minX: 100, maxX: 0, minY: 100, maxY: 0 });
 
+    const getZoomStyle = () => {
+        if (surveyState !== 'surveying' || points.length < 3) return {};
+
+        const boxWidth = boundingBox.maxX - boundingBox.minX;
+        const boxHeight = boundingBox.maxY - boundingBox.minY;
+
+        if (boxWidth <= 0 || boxHeight <= 0) return {};
+
+        const scaleX = 100 / boxWidth;
+        const scaleY = 100 / boxHeight;
+        const scale = Math.min(scaleX, scaleY) * 0.9; // 0.9 for some padding
+
+        const translateX = -(boundingBox.minX - (100 - boxWidth * scale) / (2 * scale) );
+        const translateY = -(boundingBox.minY - (100 - boxHeight * scale) / (2 * scale) );
+
+        return {
+            transform: `scale(${scale}) translate(${translateX}%, ${translateY}%)`,
+        };
+    };
+
   return (
     <div className="container mx-auto p-4 md:p-8">
         <style>
@@ -171,41 +192,46 @@ export default function AdminSurveillancePage() {
                 </CardHeader>
                 <CardContent>
                 <div className="relative aspect-video w-full rounded-lg overflow-hidden border bg-muted/20" onClick={handleMapClick}>
-                    <Image
-                    src={mapImage || "https://images.unsplash.com/photo-1599839603058-2d79a29d3c10?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
-                    alt="Map of farmland"
-                    fill
-                    className="object-cover"
-                    data-ai-hint="map farmland"
-                    />
-                    
-                    {(surveyState === 'idle' || surveyState === 'surveying') && <div className="absolute inset-0 bg-black/50" />}
-                    {surveyState === 'pinning' && <div className="absolute inset-0 bg-black/20 cursor-crosshair" />}
+                    <div 
+                        className="absolute inset-0 transition-transform duration-1000 ease-in-out"
+                        style={getZoomStyle()}
+                    >
+                        <Image
+                        src={mapImage || "https://images.unsplash.com/photo-1599839603058-2d79a29d3c10?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
+                        alt="Map of farmland"
+                        fill
+                        className="object-cover"
+                        data-ai-hint="map farmland"
+                        />
+                        
+                        {(surveyState === 'idle' || (surveyState === 'surveying' && points.length === 0)) && <div className="absolute inset-0 bg-black/50" />}
+                        {surveyState === 'pinning' && <div className="absolute inset-0 bg-black/20 cursor-crosshair" />}
 
-                    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-                        {points.length > 2 && (
-                            <polygon
-                                points={polygonPoints}
-                                className={cn(
-                                    "stroke-primary stroke-2",
-                                    surveyState === 'surveying' ? "fill-primary/20" : "fill-primary/30"
-                                )}
-                            />
-                        )}
-                        {surveyState === 'surveying' && points.length > 2 && (
-                             <g key={animationKey} className="heatmap-animation">
-                                 <foreignObject x={boundingBox.minX} y={boundingBox.minY} width={boundingBox.maxX - boundingBox.minX} height={boundingBox.maxY - boundingBox.minY}>
-                                    <div 
-                                        className="w-full h-full bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 opacity-60"
-                                        style={{ clipPath: `polygon(${points.map(p => `${p.x - boundingBox.minX} ${p.y - boundingBox.minY}`).join(', ')})` }}
-                                     />
-                                 </foreignObject>
-                             </g>
-                        )}
-                         {surveyState === 'surveying' && points.length > 2 && (
-                              <Send key={animationKey} className="drone-animation h-5 w-5 text-white -rotate-45" style={{ motionOffset: ['0%','100%']}} />
-                         )}
-                    </svg>
+                        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                            {points.length > 2 && (
+                                <polygon
+                                    points={polygonPoints}
+                                    className={cn(
+                                        "stroke-primary stroke-[0.5px]",
+                                        surveyState === 'surveying' ? "fill-primary/20" : "fill-primary/30 stroke-2"
+                                    )}
+                                />
+                            )}
+                            {surveyState === 'surveying' && points.length > 2 && (
+                                <g key={animationKey} className="heatmap-animation">
+                                    <foreignObject x={boundingBox.minX} y={boundingBox.minY} width={boundingBox.maxX - boundingBox.minX} height={boundingBox.maxY - boundingBox.minY}>
+                                        <div 
+                                            className="w-full h-full bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 opacity-60"
+                                            style={{ clipPath: `polygon(${points.map(p => `${p.x - boundingBox.minX} ${p.y - boundingBox.minY}`).join(', ')})` }}
+                                        />
+                                    </foreignObject>
+                                </g>
+                            )}
+                            {surveyState === 'surveying' && points.length > 2 && (
+                                <Send key={animationKey} className="drone-animation h-5 w-5 text-white -rotate-45" style={{ motionOffset: ['0%','100%']}} />
+                            )}
+                        </svg>
+                    </div>
                     
                     {surveyState === 'pinning' && points.map((point, index) => (
                     <MapPin 
