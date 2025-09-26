@@ -11,7 +11,7 @@ const services = [
     description: "Utilize drones equipped with advanced sensors to collect data on crop health, soil conditions, and irrigation needs with precision and efficiency.",
   },
   {
-    image: "/cropmonitoring.jpg",
+    image: "/crop-monitoring.jpg",
     imageHint: "crop monitoring drone",
     title: "CROP MONITORING",
     description: "Monitor crop growth stages, detect pests, diseases, and other issues early on, allowing for targeted interventions and improved yields.",
