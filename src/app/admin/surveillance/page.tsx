@@ -6,7 +6,7 @@ import type { MouseEvent } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Layers, PlayCircle, Maximize, Upload, X, MapPin } from "lucide-react";
+import { Layers, PlayCircle, Maximize, Upload, X, MapPin, RefreshCw } from "lucide-react";
 
 interface Point {
   x: number;
@@ -16,6 +16,7 @@ interface Point {
 export default function AdminSurveillancePage() {
   const [mapImage, setMapImage] = useState<string | null>(null);
   const [points, setPoints] = useState<Point[]>([]);
+  const [isSurveying, setIsSurveying] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +25,8 @@ export default function AdminSurveillancePage() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setMapImage(reader.result as string);
-        setPoints([]); // Clear points when new image is uploaded
+        setPoints([]); 
+        setIsSurveying(false);
       };
       reader.readAsDataURL(file);
     }
@@ -35,6 +37,7 @@ export default function AdminSurveillancePage() {
   };
 
   const handleMapClick = (e: MouseEvent<HTMLDivElement>) => {
+    if (isSurveying) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
@@ -44,6 +47,17 @@ export default function AdminSurveillancePage() {
   const clearPoints = () => {
     setPoints([]);
   }
+  
+  const handleStartSurvey = () => {
+    if (points.length < 3) return; // Need at least 3 points for a polygon
+    setIsSurveying(true);
+  }
+
+  const handleResetSurvey = () => {
+    setIsSurveying(false);
+  }
+
+  const polygonPoints = points.map(p => `${p.x},${p.y}`).join(' ');
 
   return (
     <div className="container mx-auto p-4 md:p-8">
@@ -55,7 +69,9 @@ export default function AdminSurveillancePage() {
       <Card>
         <CardHeader>
           <CardTitle>Mission Control</CardTitle>
-          <CardDescription>Upload a land image, click to drop pins, and define the survey area.</CardDescription>
+          <CardDescription>
+            {isSurveying ? "Surveying the selected area." : "Upload a land image, click to drop pins, and define the survey area."}
+            </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="relative aspect-video w-full rounded-lg overflow-hidden border bg-muted/20" onClick={handleMapClick}>
@@ -64,11 +80,21 @@ export default function AdminSurveillancePage() {
               alt="Map of farmland"
               fill
               className="object-cover"
+              style={{ opacity: isSurveying ? 0.1 : 1 }}
               data-ai-hint="map farmland"
             />
-            {!mapImage && <div className="absolute inset-0 bg-black/20" />}
+             {!mapImage && !isSurveying && <div className="absolute inset-0 bg-black/20" />}
             
-            {points.map((point, index) => (
+            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+              {points.length > 2 && (
+                 <polygon
+                    points={polygonPoints}
+                    className="fill-primary/30 stroke-primary stroke-2"
+                 />
+              )}
+            </svg>
+            
+            {!isSurveying && points.map((point, index) => (
               <MapPin 
                 key={index}
                 className="absolute h-6 w-6 text-red-500 -translate-x-1/2 -translate-y-full"
@@ -88,27 +114,36 @@ export default function AdminSurveillancePage() {
             </div>
           </div>
           <div className="mt-6 flex justify-center gap-4">
-            <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleImageUpload}
-              accept="image/*"
-              className="hidden"
-            />
-            <Button variant="outline" onClick={handleUploadClick}>
-                <Upload className="mr-2 h-5 w-5" />
-                Upload Image
-            </Button>
-            {points.length > 0 && (
-                 <Button variant="destructive" onClick={clearPoints}>
-                    <X className="mr-2 h-5 w-5" />
-                    Clear Pins
+            {!isSurveying ? (
+              <>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleImageUpload}
+                  accept="image/*"
+                  className="hidden"
+                />
+                <Button variant="outline" onClick={handleUploadClick}>
+                    <Upload className="mr-2 h-5 w-5" />
+                    Upload Image
+                </Button>
+                {points.length > 0 && (
+                     <Button variant="destructive" onClick={clearPoints}>
+                        <X className="mr-2 h-5 w-5" />
+                        Clear Pins
+                    </Button>
+                )}
+                <Button size="lg" onClick={handleStartSurvey} disabled={points.length < 3}>
+                  <PlayCircle className="mr-2 h-5 w-5" />
+                  Start Surveying
+                </Button>
+              </>
+            ) : (
+                <Button size="lg" variant="outline" onClick={handleResetSurvey}>
+                    <RefreshCw className="mr-2 h-5 w-5" />
+                    Reset Survey
                 </Button>
             )}
-            <Button size="lg">
-              <PlayCircle className="mr-2 h-5 w-5" />
-              Start Surveying
-            </Button>
           </div>
         </CardContent>
       </Card>
