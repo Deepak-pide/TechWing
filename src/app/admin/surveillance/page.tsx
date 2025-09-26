@@ -117,17 +117,25 @@ export default function AdminSurveillancePage() {
 
         if (boxWidth <= 0 || boxHeight <= 0) return {};
 
-        const scaleX = 100 / boxWidth;
-        const scaleY = 100 / boxHeight;
-        const scale = Math.min(scaleX, scaleY) * 0.9; // 0.9 for some padding
+        const containerWidth = 100;
+        const containerHeight = 100;
 
-        const translateX = -(boundingBox.minX + (boxWidth / 2) - 50 / scale);
-        const translateY = -(boundingBox.minY + (boxHeight / 2) - 50 / scale);
+        const scaleX = containerWidth / boxWidth;
+        const scaleY = containerHeight / boxHeight;
+        const scale = Math.min(scaleX, scaleY) * 0.9; // 0.9 for padding
 
+        // Center of the bounding box
+        const boxCenterX = boundingBox.minX + boxWidth / 2;
+        const boxCenterY = boundingBox.minY + boxHeight / 2;
+        
+        // Translate to move the box center to the origin, then move it to the container center
+        const translateX = (containerWidth / 2) - boxCenterX;
+        const translateY = (containerHeight / 2) - boxCenterY;
 
         return {
-            transform: `scale(${scale}) translate(${translateX}%, ${translateY}%)`,
-            transition: 'transform 1s ease-in-out'
+            transform: `translate(${translateX}%, ${translateY}%) scale(${scale})`,
+            transformOrigin: `${boxCenterX}% ${boxCenterY}%`,
+            transition: 'transform 1s ease-in-out, transform-origin 1s ease-in-out'
         };
     };
 
@@ -239,7 +247,7 @@ export default function AdminSurveillancePage() {
                                 <polygon
                                     points={polygonPoints}
                                     className={cn(
-                                        "stroke-primary stroke-1",
+                                        "stroke-primary stroke-2",
                                         surveyState === 'surveying' || surveyState === 'complete' ? "fill-primary/20" : "fill-primary/30"
                                     )}
                                     style={{vectorEffect: "non-scaling-stroke"}}
@@ -256,7 +264,7 @@ export default function AdminSurveillancePage() {
                                 </g>
                             )}
                             {surveyState === 'surveying' && points.length > 2 && (
-                                <Send key={animationKey} className="drone-animation h-5 w-5 text-white -rotate-45" style={{ motionOffset: ['0%','100%']}} />
+                                <Send key={animationKey} className="drone-animation h-5 w-5 text-white -rotate-45" style={{ motionOffset: ['0%','100%'], vectorEffect: "non-scaling-stroke" }} />
                             )}
                         </svg>
                     </div>
@@ -312,7 +320,7 @@ export default function AdminSurveillancePage() {
                         <>
                              <Button variant="outline" onClick={handleRestart}>
                                 <MapPin className="mr-2 h-5 w-5" />
-                                Restart
+                                Redefine Area
                             </Button>
                              <Button size="lg" onClick={handleStartSurvey}>
                                 <ScanLine className="mr-2 h-5 w-5" />
@@ -331,7 +339,7 @@ export default function AdminSurveillancePage() {
                 </CardContent>
             </Card>
         </div>
-        <div className={cn("lg:col-span-1", (surveyState !== 'surveying' && surveyState !== 'complete') && "hidden")}>
+        <div className={cn("lg:col-span-1", (surveyState !== 'surveying' && surveyState !== 'complete') && "hidden lg:block lg:opacity-0")}>
              <Card className="feed-in-animation">
                 <CardHeader>
                     <CardTitle>Threat Detection Feed</CardTitle>
