@@ -71,6 +71,28 @@ export default function AdminSprayingPage() {
     }
   };
 
+  const handleTaskDelete = (taskId: number) => {
+    const updatedTasks = tasks.filter(task => task.id !== taskId);
+    setTasks(updatedTasks);
+
+    try {
+      // Remove from newly created tasks
+      const storedTasksString = localStorage.getItem('sprayingTasks') || '[]';
+      let storedTasks = JSON.parse(storedTasksString);
+      storedTasks = storedTasks.filter((task: SprayingTaskType) => task.id !== taskId);
+      localStorage.setItem('sprayingTasks', JSON.stringify(storedTasks));
+
+      // Remove from status updates
+      const tasksWithStatusString = localStorage.getItem('tasksWithStatus');
+      const tasksWithStatus = tasksWithStatusString ? JSON.parse(tasksWithStatusString) : {};
+      delete tasksWithStatus[taskId];
+      localStorage.setItem('tasksWithStatus', JSON.stringify(tasksWithStatus));
+
+    } catch (error) {
+      console.error("Could not delete task from localStorage", error);
+    }
+  }
+
   if (!isMounted) {
       return null; // or a loading spinner
   }
@@ -102,7 +124,7 @@ export default function AdminSprayingPage() {
             <CardContent className="space-y-6">
               {newTasks.length > 0 ? (
                 newTasks.map(task => (
-                  <SprayingTask key={task.id} task={task} onUpdate={handleTaskUpdate} />
+                  <SprayingTask key={task.id} task={task} onUpdate={handleTaskUpdate} onDelete={handleTaskDelete} />
                 ))
               ) : (
                 <p className="text-muted-foreground text-center py-8">No new spraying requests.</p>
@@ -119,7 +141,7 @@ export default function AdminSprayingPage() {
             <CardContent className="space-y-6">
                {acceptedTasks.length > 0 ? (
                 acceptedTasks.map(task => (
-                  <SprayingTask key={task.id} task={task} onUpdate={handleTaskUpdate} />
+                  <SprayingTask key={task.id} task={task} onUpdate={handleTaskUpdate} onDelete={handleTaskDelete}/>
                 ))
               ) : (
                 <p className="text-muted-foreground text-center py-8">No accepted jobs.</p>
@@ -138,7 +160,7 @@ export default function AdminSprayingPage() {
                 [...completedTasks, ...declinedTasks]
                   .sort((a,b) => (a.id > b.id ? -1 : 1))
                   .map(task => (
-                    <SprayingTask key={task.id} task={task} onUpdate={() => {}} />
+                    <SprayingTask key={task.id} task={task} onUpdate={() => {}} onDelete={handleTaskDelete} />
                 ))
               ) : (
                 <p className="text-muted-foreground text-center py-8">No completed or declined jobs found.</p>

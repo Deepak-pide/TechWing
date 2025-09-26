@@ -2,14 +2,32 @@ import Image from 'next/image';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { AlertTriangle, Calendar, Map, Check, X } from 'lucide-react';
+import { AlertTriangle, Calendar, Map, Check, X, MoreVertical, Trash2 } from 'lucide-react';
 import type { SprayingTask } from './tasks';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 interface SprayingTaskProps {
   task: SprayingTask;
   onUpdate: (taskId: number, status: 'Accepted' | 'Declined') => void;
+  onDelete: (taskId: number) => void;
 }
 
 const statusConfig = {
@@ -19,7 +37,7 @@ const statusConfig = {
     Completed: { color: 'bg-gray-500', text: 'Completed' },
 }
 
-export default function SprayingTask({ task, onUpdate }: SprayingTaskProps) {
+export default function SprayingTask({ task, onUpdate, onDelete }: SprayingTaskProps) {
   const { id, farm, area, threat, status, date, mapImage } = task;
   const router = useRouter();
 
@@ -50,9 +68,39 @@ export default function SprayingTask({ task, onUpdate }: SprayingTaskProps) {
                            High Risk: {threat}
                         </CardTitle>
                     </div>
-                     <Badge className={cn("text-white border-0", statusConfig[status].color)}>
-                        {statusConfig[status].text}
-                     </Badge>
+                    <div className="flex items-center gap-2">
+                        <Badge className={cn("text-white border-0", statusConfig[status].color)}>
+                            {statusConfig[status].text}
+                        </Badge>
+                        <AlertDialog>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                                        <MoreVertical className="h-4 w-4" />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                <AlertDialogTrigger asChild>
+                                    <DropdownMenuItem className="text-destructive">
+                                        <Trash2 className="mr-2" /> Delete
+                                    </DropdownMenuItem>
+                                </AlertDialogTrigger>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This action cannot be undone. This will permanently delete this spraying mission.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction onClick={() => onDelete(id)}>Delete</AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
+                    </div>
                 </div>
             </CardHeader>
             <CardContent className="space-y-3 pt-0">
