@@ -14,7 +14,7 @@ export default function AdminDashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <Card className="relative overflow-hidden group">
                 <Image 
-                    src="https://images.unsplash.com/photo-1582105153496-5de673551d0b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxkamklMjBkcm9uZXxlbnwwfHx8fDE3NTc0MTUxODd8MA&ixlib=rb-4.1.0&q=80&w=1080"
+                    src="https://elistair.com/wp-content/uploads/2024/07/Different_types_of_security_drone_-_Multi_rotor_drones.jpg"
                     alt="Drone Surveillance"
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"

@@ -33,6 +33,12 @@ const nextConfig: NextConfig = {
         hostname: 'www.xboom.in',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'elistair.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
