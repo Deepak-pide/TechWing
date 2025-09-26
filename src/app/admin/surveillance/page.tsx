@@ -124,18 +124,16 @@ export default function AdminSurveillancePage() {
         const scaleY = containerHeight / boxHeight;
         const scale = Math.min(scaleX, scaleY) * 0.9; // 0.9 for padding
 
-        // Center of the bounding box
         const boxCenterX = boundingBox.minX + boxWidth / 2;
         const boxCenterY = boundingBox.minY + boxHeight / 2;
         
-        // Translate to move the box center to the origin, then move it to the container center
-        const translateX = (containerWidth / 2) - boxCenterX;
-        const translateY = (containerHeight / 2) - boxCenterY;
+        const translateX = (containerWidth / 2) - (boxCenterX * scale);
+        const translateY = (containerHeight / 2) - (boxCenterY * scale);
 
         return {
             transform: `translate(${translateX}%, ${translateY}%) scale(${scale})`,
-            transformOrigin: `${boxCenterX}% ${boxCenterY}%`,
-            transition: 'transform 1s ease-in-out, transform-origin 1s ease-in-out'
+            transformOrigin: `0 0`,
+            transition: 'transform 1s ease-in-out'
         };
     };
 
@@ -247,8 +245,8 @@ export default function AdminSurveillancePage() {
                                 <polygon
                                     points={polygonPoints}
                                     className={cn(
-                                        "stroke-primary stroke-2",
-                                        surveyState === 'surveying' || surveyState === 'complete' ? "fill-primary/20" : "fill-primary/30"
+                                        "stroke-accent stroke-2",
+                                        surveyState === 'surveying' || surveyState === 'complete' ? "fill-accent/20" : "fill-accent/30"
                                     )}
                                     style={{vectorEffect: "non-scaling-stroke"}}
                                 />
@@ -372,4 +370,5 @@ export default function AdminSurveillancePage() {
 
 }
 
+    
     
