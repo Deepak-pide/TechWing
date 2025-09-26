@@ -17,8 +17,8 @@ interface Point {
 }
 
 const pestImages = [
-    { src: "https://images.unsplash.com/photo-1609134599599-02c0b62a694a?q=80&w=2070&auto=format&fit=crop", alt: "Pest 1", hint: "insect leaf" },
-    { src: "https://images.unsplash.com/photo-1596706037345-6d99e719117e?q=80&w=2070&auto=format&fit=crop", alt: "Pest 2", hint: "caterpillar leaf" },
+    { src: "https://source.roboflow.com/jzg4ujL5q6hAeyr510Zli7nXpu43/0yAg3Ig8ZTpjNysAPqZC/thumb.jpg", alt: "Pest 1", hint: "insect leaf" },
+    { src: "https://ars.els-cdn.com/content/image/1-s2.0-S2352340925002495-gr6.jpg", alt: "Pest 2", hint: "caterpillar leaf" },
     { src: "https://images.unsplash.com/photo-1526336344929-4b72458872a9?q=80&w=1974&auto=format&fit=crop", alt: "Pest 3", hint: "aphid leaf" },
     { src: "https://images.unsplash.com/photo-1628134787139-e9313430545f?q=80&w=2070&auto=format&fit=crop", alt: "Pest 4", hint: "plant disease" },
 ];
@@ -374,3 +374,5 @@ export default function AdminSurveillancePage() {
   );
 
 }
+
+    
