@@ -6,8 +6,10 @@ import type { MouseEvent } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Layers, Maximize, Upload, X, MapPin, RefreshCw, Send, ScanLine } from "lucide-react";
+import { Layers, Maximize, Upload, X, MapPin, RefreshCw, Send, ScanLine, CheckCircle, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { useRouter } from "next/navigation";
 
 interface Point {
   x: number;
@@ -24,9 +26,20 @@ const pestImages = [
 export default function AdminSurveillancePage() {
   const [mapImage, setMapImage] = useState<string | null>(null);
   const [points, setPoints] = useState<Point[]>([]);
-  const [isSurveying, setIsSurveying] = useState(false);
+  const [surveyState, setSurveyState] = useState<'idle' | 'pinning' | 'surveying' | 'complete'>('idle');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [animationKey, setAnimationKey] = useState(0);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (surveyState === 'surveying') {
+      const timer = setTimeout(() => {
+        setSurveyState('complete');
+      }, 20000); // Duration of the animation
+      return () => clearTimeout(timer);
+    }
+  }, [surveyState]);
+
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -35,7 +48,7 @@ export default function AdminSurveillancePage() {
       reader.onloadend = () => {
         setMapImage(reader.result as string);
         setPoints([]); 
-        setIsSurveying(false);
+        setSurveyState('pinning');
       };
       reader.readAsDataURL(file);
     }
@@ -46,7 +59,7 @@ export default function AdminSurveillancePage() {
   };
 
   const handleMapClick = (e: MouseEvent<HTMLDivElement>) => {
-    if (isSurveying) return;
+    if (surveyState !== 'pinning') return;
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
@@ -59,14 +72,19 @@ export default function AdminSurveillancePage() {
   
   const handleStartSurvey = () => {
     if (points.length < 3) return;
-    setIsSurveying(true);
+    setSurveyState('surveying');
     setAnimationKey(prev => prev + 1);
   }
 
   const handleResetSurvey = () => {
-    setIsSurveying(false);
+    setSurveyState(mapImage ? 'pinning' : 'idle');
     // No need to clear points, user can restart on same area or clear manually
   }
+
+  const handleScheduleSpraying = () => {
+    // In a real app, you'd pass data. Here, we'll just navigate.
+    router.push('/admin/spraying');
+  };
 
   const polygonPoints = points.map(p => `${p.x},${p.y}`).join(' ');
 
@@ -89,7 +107,7 @@ export default function AdminSurveillancePage() {
             }
             .drone-animation {
                 offset-path: path('M ${boundingBox.minX} ${boundingBox.minY + 5} H ${boundingBox.maxX} V ${boundingBox.minY + 15} H ${boundingBox.minX} V ${boundingBox.minY + 25} H ${boundingBox.maxX} V ${boundingBox.minY + 35} H ${boundingBox.minX} V ${boundingBox.minY + 45} H ${boundingBox.maxX} V ${boundingBox.minY + 55} H ${boundingBox.minX} V ${boundingBox.minY + 65} H ${boundingBox.maxX} V ${boundingBox.minY + 75} H ${boundingBox.minX} V ${boundingBox.minY + 85} H ${boundingBox.maxX}');
-                animation: drone-path 20s linear infinite;
+                animation: drone-path 20s linear forwards;
             }
             
             @keyframes heatmap-reveal {
@@ -97,7 +115,7 @@ export default function AdminSurveillancePage() {
                 to { clip-path: inset(0 0 0 0); }
             }
             .heatmap-animation {
-                animation: heatmap-reveal 20s linear infinite;
+                animation: heatmap-reveal 20s linear forwards;
             }
         `}
         </style>
@@ -106,14 +124,49 @@ export default function AdminSurveillancePage() {
         <h1 className="text-3xl font-bold tracking-tight text-foreground font-headline">Live Surveillance</h1>
         <p className="text-muted-foreground">Monitor and manage drone surveillance missions.</p>
       </div>
+      
+      <AlertDialog open={surveyState === 'complete'}>
+        <AlertDialogContent>
+            <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+                <CheckCircle className="h-6 w-6 text-green-500" />
+                Survey Complete
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+                <div className="mt-4">
+                    <p>The drone has completed its scan of the designated area. The following threats were detected:</p>
+                    <div className="my-4 grid grid-cols-4 gap-2">
+                        {pestImages.map((img, index) => (
+                            <Image key={index} src={img.src} alt={img.alt} width={64} height={64} className="rounded-md object-cover" />
+                        ))}
+                    </div>
+                    <div className="p-4 rounded-md bg-destructive/10 border border-destructive/30">
+                        <h4 className="font-semibold text-destructive flex items-center gap-2"><AlertTriangle /> High Risk: Powdery Mildew</h4>
+                        <p className="text-destructive/80 text-sm mt-1">Affected Area: Approx 1.5 Acres. Immediate action recommended to prevent spread.</p>
+                    </div>
+                </div>
+            </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleResetSurvey}>Review & Reset</AlertDialogCancel>
+            <AlertDialogAction onClick={handleScheduleSpraying}>Schedule Spraying</AlertDialogAction>
+            </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
             <Card>
                 <CardHeader>
-                <CardTitle>{isSurveying ? "Survey in Progress" : "Mission Control"}</CardTitle>
+                <CardTitle>
+                    {surveyState === 'idle' && "Mission Control"}
+                    {surveyState === 'pinning' && "Define Survey Area"}
+                    {surveyState === 'surveying' && "Survey in Progress..."}
+                </CardTitle>
                 <CardDescription>
-                    {isSurveying ? "Drone is scanning the selected area." : "Upload a land image, click to drop pins, and define the survey area."}
+                    {surveyState === 'idle' && "Upload a land image to begin."}
+                    {surveyState === 'pinning' && "Click to drop pins and outline the survey zone."}
+                    {surveyState === 'surveying' && "Drone is scanning the selected area."}
                 </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -125,11 +178,9 @@ export default function AdminSurveillancePage() {
                     className="object-cover"
                     data-ai-hint="map farmland"
                     />
-                    {!isSurveying && <div className="absolute inset-0 bg-black/20" />}
                     
-                    {isSurveying && (
-                         <div className="absolute inset-0 bg-black/60" />
-                    )}
+                    {(surveyState === 'idle' || surveyState === 'surveying') && <div className="absolute inset-0 bg-black/50" />}
+                    {surveyState === 'pinning' && <div className="absolute inset-0 bg-black/20 cursor-crosshair" />}
 
                     <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
                         {points.length > 2 && (
@@ -137,11 +188,11 @@ export default function AdminSurveillancePage() {
                                 points={polygonPoints}
                                 className={cn(
                                     "stroke-primary stroke-2",
-                                    isSurveying ? "fill-primary/20" : "fill-primary/30"
+                                    surveyState === 'surveying' ? "fill-primary/20" : "fill-primary/30"
                                 )}
                             />
                         )}
-                        {isSurveying && points.length > 2 && (
+                        {surveyState === 'surveying' && points.length > 2 && (
                              <g key={animationKey} className="heatmap-animation">
                                  <foreignObject x={boundingBox.minX} y={boundingBox.minY} width={boundingBox.maxX - boundingBox.minX} height={boundingBox.maxY - boundingBox.minY}>
                                     <div 
@@ -151,12 +202,12 @@ export default function AdminSurveillancePage() {
                                  </foreignObject>
                              </g>
                         )}
-                         {isSurveying && points.length > 2 && (
+                         {surveyState === 'surveying' && points.length > 2 && (
                               <Send key={animationKey} className="drone-animation h-5 w-5 text-white -rotate-45" style={{ motionOffset: ['0%','100%']}} />
                          )}
                     </svg>
                     
-                    {!isSurveying && points.map((point, index) => (
+                    {surveyState === 'pinning' && points.map((point, index) => (
                     <MapPin 
                         key={index}
                         className="absolute h-6 w-6 text-red-500 -translate-x-1/2 -translate-y-full"
@@ -176,7 +227,7 @@ export default function AdminSurveillancePage() {
                     </div>
                 </div>
                 <div className="mt-6 flex justify-center gap-4">
-                    {!isSurveying ? (
+                    {surveyState !== 'surveying' ? (
                     <>
                         <input
                         type="file"
@@ -189,7 +240,7 @@ export default function AdminSurveillancePage() {
                             <Upload className="mr-2 h-5 w-5" />
                             Upload Image
                         </Button>
-                        {points.length > 0 && (
+                        {points.length > 0 && surveyState === 'pinning' && (
                             <Button variant="destructive" onClick={clearPoints}>
                                 <X className="mr-2 h-5 w-5" />
                                 Clear Pins
@@ -197,13 +248,13 @@ export default function AdminSurveillancePage() {
                         )}
                         <Button size="lg" onClick={handleStartSurvey} disabled={points.length < 3}>
                         <ScanLine className="mr-2 h-5 w-5" />
-                        Start Surveying
+                        Start Survey
                         </Button>
                     </>
                     ) : (
-                        <Button size="lg" variant="outline" onClick={handleResetSurvey}>
+                        <Button size="lg" variant="outline" onClick={handleResetSurvey} disabled={surveyState !== 'surveying'}>
                             <RefreshCw className="mr-2 h-5 w-5" />
-                            Reset Survey
+                            Resetting...
                         </Button>
                     )}
                 </div>
@@ -241,4 +292,4 @@ export default function AdminSurveillancePage() {
     </div>
   );
 
-    
+}

@@ -64,7 +64,7 @@ export default function AdminDashboardPage() {
                         </p>
                     </CardContent>
                     <div className="mt-auto">
-                        <Link href="#">
+                        <Link href="/admin/spraying">
                             <Button variant="secondary">
                                 Go to Spraying <ArrowRight className="ml-2 h-4 w-4" />
                             </Button>
