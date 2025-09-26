@@ -2,13 +2,20 @@
 "use client";
 
 import { useState, useRef } from "react";
+import type { MouseEvent } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Layers, PlayCircle, Maximize, Upload } from "lucide-react";
+import { Layers, PlayCircle, Maximize, Upload, X, MapPin } from "lucide-react";
+
+interface Point {
+  x: number;
+  y: number;
+}
 
 export default function AdminSurveillancePage() {
   const [mapImage, setMapImage] = useState<string | null>(null);
+  const [points, setPoints] = useState<Point[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,6 +24,7 @@ export default function AdminSurveillancePage() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setMapImage(reader.result as string);
+        setPoints([]); // Clear points when new image is uploaded
       };
       reader.readAsDataURL(file);
     }
@@ -25,6 +33,17 @@ export default function AdminSurveillancePage() {
   const handleUploadClick = () => {
     fileInputRef.current?.click();
   };
+
+  const handleMapClick = (e: MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setPoints([...points, { x, y }]);
+  };
+
+  const clearPoints = () => {
+    setPoints([]);
+  }
 
   return (
     <div className="container mx-auto p-4 md:p-8">
@@ -36,10 +55,10 @@ export default function AdminSurveillancePage() {
       <Card>
         <CardHeader>
           <CardTitle>Mission Control</CardTitle>
-          <CardDescription>Upload a land image or define an area on the map to begin.</CardDescription>
+          <CardDescription>Upload a land image, click to drop pins, and define the survey area.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="relative aspect-video w-full rounded-lg overflow-hidden border">
+          <div className="relative aspect-video w-full rounded-lg overflow-hidden border bg-muted/20" onClick={handleMapClick}>
             <Image
               src={mapImage || "https://images.unsplash.com/photo-1599839603058-2d79a29d3c10?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
               alt="Map of farmland"
@@ -47,12 +66,16 @@ export default function AdminSurveillancePage() {
               className="object-cover"
               data-ai-hint="map farmland"
             />
-            <div className="absolute inset-0 bg-black/20" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                <div className="w-48 h-32 border-4 border-dashed border-primary bg-primary/20 rounded-md animate-pulse">
-                    <span className="absolute -top-7 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs px-2 py-1 rounded-md">Selected Area</span>
-                </div>
-            </div>
+            {!mapImage && <div className="absolute inset-0 bg-black/20" />}
+            
+            {points.map((point, index) => (
+              <MapPin 
+                key={index}
+                className="absolute h-6 w-6 text-red-500 -translate-x-1/2 -translate-y-full"
+                style={{ left: `${point.x}%`, top: `${point.y}%`, fill: 'white' }}
+              />
+            ))}
+            
             <div className="absolute top-4 right-4 flex flex-col gap-2">
                 <Button variant="secondary" size="icon">
                     <Layers className="h-5 w-5" />
@@ -76,6 +99,12 @@ export default function AdminSurveillancePage() {
                 <Upload className="mr-2 h-5 w-5" />
                 Upload Image
             </Button>
+            {points.length > 0 && (
+                 <Button variant="destructive" onClick={clearPoints}>
+                    <X className="mr-2 h-5 w-5" />
+                    Clear Pins
+                </Button>
+            )}
             <Button size="lg">
               <PlayCircle className="mr-2 h-5 w-5" />
               Start Surveying
