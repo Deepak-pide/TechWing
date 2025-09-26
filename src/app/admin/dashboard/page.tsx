@@ -14,7 +14,7 @@ export default function AdminDashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <Card className="relative overflow-hidden group">
                 <Image 
-                    src="https://picsum.photos/seed/surveillance/800/600"
+                    src="https://images.unsplash.com/photo-1582105153496-5de673551d0b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxkamklMjBkcm9uZXxlbnwwfHx8fDE3NTc0MTUxODd8MA&ixlib=rb-4.1.0&q=80&w=1080"
                     alt="Drone Surveillance"
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -44,7 +44,7 @@ export default function AdminDashboardPage() {
             </Card>
             <Card className="relative overflow-hidden group">
                 <Image 
-                    src="https://picsum.photos/seed/spraying/800/600"
+                    src="https://images.unsplash.com/photo-1621431149952-9a00b65a4c6e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxEUk9ORSUyMFNQUkFZXxlbnwwfHx8fDE3NTc0MTUyMTN8MA&ixlib=rb-4.1.0&q=80&w=1080"
                     alt="Drone Spraying"
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
