@@ -44,7 +44,7 @@ export default function AdminDashboardPage() {
             </Card>
             <Card className="relative overflow-hidden group">
                 <Image 
-                    src="https://images.unsplash.com/photo-1621431149952-9a00b65a4c6e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxEUk9ORSUyMFNQUkFZXxlbnwwfHx8fDE3NTc0MTUyMTN8MA&ixlib=rb-4.1.0&q=80&w=1080"
+                    src="https://www.xboom.in/wp-content/uploads/2022/08/Untitled-design-37-3.png"
                     alt="Drone Spraying"
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
