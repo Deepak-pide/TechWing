@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { initialTasks, SprayingTask as SprayingTaskType } from './tasks';
@@ -10,18 +10,36 @@ import SprayingTask from './SprayingTask';
 export default function AdminSprayingPage() {
   const [tasks, setTasks] = useState<SprayingTaskType[]>(initialTasks);
 
+  useEffect(() => {
+    // On component mount, check localStorage for new tasks and add them to the state.
+    try {
+      const storedTasks = JSON.parse(localStorage.getItem('sprayingTasks') || '[]');
+      if (storedTasks.length > 0) {
+        // Simple merge: assumes new tasks from localStorage are not already in initialTasks
+        setTasks(prevTasks => {
+            const existingIds = new Set(prevTasks.map(t => t.id));
+            const newTasks = storedTasks.filter((t: SprayingTaskType) => !existingIds.has(t.id));
+            return [...prevTasks, ...newTasks];
+        });
+      }
+    } catch (error) {
+      console.error("Could not load tasks from localStorage", error);
+    }
+  }, []);
+
   const handleTaskUpdate = (taskId: number, status: 'Accepted' | 'Declined') => {
     setTasks(tasks.map(task => 
         task.id === taskId 
         ? { ...task, status: status }
         : task
     ));
-    // In a real app, you would likely remove the task from the 'New' list
+    // In a real app, you would also update localStorage or a backend here.
   };
 
   const newTasks = tasks.filter(t => t.status === 'New');
   const acceptedTasks = tasks.filter(t => t.status === 'Accepted');
   const completedTasks = tasks.filter(t => t.status === 'Completed');
+  const declinedTasks = tasks.filter(t => t.status === 'Declined');
 
   return (
     <div className="container mx-auto p-4 md:p-8">
@@ -31,10 +49,10 @@ export default function AdminSprayingPage() {
       </div>
 
       <Tabs defaultValue="new">
-        <TabsList className="grid w-full grid-cols-3 md:w-[400px]">
+        <TabsList className="grid w-full grid-cols-4 md:w-[600px]">
           <TabsTrigger value="new">New Requests ({newTasks.length})</TabsTrigger>
           <TabsTrigger value="accepted">Accepted ({acceptedTasks.length})</TabsTrigger>
-          <TabsTrigger value="completed">History ({completedTasks.length})</TabsTrigger>
+          <TabsTrigger value="history">History ({completedTasks.length + declinedTasks.length})</TabsTrigger>
         </TabsList>
         <TabsContent value="new">
           <Card>
@@ -70,19 +88,21 @@ export default function AdminSprayingPage() {
             </CardContent>
           </Card>
         </TabsContent>
-        <TabsContent value="completed">
+        <TabsContent value="history">
           <Card>
             <CardHeader>
-              <CardTitle>Completed Jobs</CardTitle>
-              <CardDescription>A historical record of all completed spraying operations.</CardDescription>
+              <CardTitle>Job History</CardTitle>
+              <CardDescription>A historical record of all completed and declined spraying operations.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              {completedTasks.length > 0 ? (
-                completedTasks.map(task => (
-                  <SprayingTask key={task.id} task={task} onUpdate={() => {}} />
+              {[...completedTasks, ...declinedTasks].length > 0 ? (
+                [...completedTasks, ...declinedTasks]
+                  .sort((a,b) => (a.id > b.id ? -1 : 1))
+                  .map(task => (
+                    <SprayingTask key={task.id} task={task} onUpdate={() => {}} />
                 ))
               ) : (
-                <p className="text-muted-foreground text-center py-8">No completed jobs found.</p>
+                <p className="text-muted-foreground text-center py-8">No completed or declined jobs found.</p>
               )}
             </CardContent>
           </Card>
@@ -91,3 +111,5 @@ export default function AdminSprayingPage() {
     </div>
   );
 }
+
+    

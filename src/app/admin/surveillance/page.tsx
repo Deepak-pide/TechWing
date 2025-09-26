@@ -93,7 +93,26 @@ export default function AdminSurveillancePage() {
   }
 
   const handleScheduleSpraying = () => {
-    // In a real app, you'd pass data. Here, we'll just navigate.
+    // In a real app, you'd use a state management library like Redux or Zustand
+    // to manage state across pages. For this simulation, we'll use localStorage.
+    const newTask = {
+        id: Date.now(),
+        farm: 'Green Valley Farms',
+        area: '1.5 Acres',
+        threat: 'Powdery Mildew',
+        status: 'New',
+        date: new Date().toISOString().split('T')[0],
+        mapImage: 'https://images.unsplash.com/photo-1599839603058-2d79a29d3c10?q=80&w=2070&auto=format&fit=crop'
+    };
+    
+    try {
+        const existingTasks = JSON.parse(localStorage.getItem('sprayingTasks') || '[]');
+        const updatedTasks = [...existingTasks, newTask];
+        localStorage.setItem('sprayingTasks', JSON.stringify(updatedTasks));
+    } catch (error) {
+        console.error("Could not save new task to localStorage", error);
+    }
+    
     router.push('/admin/spraying');
   };
 
@@ -370,5 +389,4 @@ export default function AdminSurveillancePage() {
 
 }
 
-    
     
