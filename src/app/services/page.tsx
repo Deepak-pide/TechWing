@@ -109,7 +109,7 @@ export default function ServicesPage() {
                 <ul className="space-y-3">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-start gap-2">
-                      <span className="text-primary mt-1">&#8764;</span>
+                      <span className="text-primary mt-1">~</span>
                       <span className="text-muted-foreground">{feature.substring(2)}</span>
                     </li>
                   ))}
