@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = (credentials: {email?: string, password?: string}) => {
     // Simulate login
-    if (credentials.email === 'teamtechwing@gmail.com' && credentials.password === 'techwing') {
+    if (credentials.password === 'techwing') {
       localStorage.setItem('isAuthenticated', 'true');
       localStorage.setItem('userRole', 'admin');
       setIsAuthenticated(true);
