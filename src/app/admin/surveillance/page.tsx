@@ -190,7 +190,7 @@ export default function AdminSurveillancePage() {
             </AlertDialogTitle>
             <AlertDialogDescription>
                 <div className="mt-4">
-                    <p>The drone has completed its scan of the designated area. The following threats were detected:</p>
+                    <p>The drone has completed its scan. Total scanned area: ~1.5 Acres.</p>
                     <div className="my-4 grid grid-cols-4 gap-2">
                         {pestImages.map((img, index) => (
                             <Image key={index} src={img.src} alt={img.alt} width={64} height={64} className="rounded-md object-cover" data-ai-hint={img.hint} />
@@ -198,7 +198,7 @@ export default function AdminSurveillancePage() {
                     </div>
                     <div className="p-4 rounded-md bg-destructive/10 border border-destructive/30">
                         <h4 className="font-semibold text-destructive flex items-center gap-2"><AlertTriangle /> High Risk: Powdery Mildew</h4>
-                        <p className="text-destructive/80 text-sm mt-1">Affected Area: Approx 1.5 Acres. Immediate action recommended to prevent spread.</p>
+                        <p className="text-destructive/80 text-sm mt-1">Affected Area: 45%. Immediate action recommended to prevent spread.</p>
                     </div>
                 </div>
             </AlertDialogDescription>
