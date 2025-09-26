@@ -69,6 +69,11 @@ export default function AdminSurveillancePage() {
   const clearPoints = () => {
     setPoints([]);
   }
+  
+  const handleRestart = () => {
+    setPoints([]);
+    setSurveyState('pinning');
+  }
 
   const handleLockArea = () => {
       if (points.length < 3) return;
@@ -82,7 +87,8 @@ export default function AdminSurveillancePage() {
   }
 
   const handleResetSurvey = () => {
-    setSurveyState(mapImage ? 'pinning' : 'idle');
+    setMapImage(null);
+    setSurveyState('idle');
     setPoints([]);
   }
 
@@ -213,13 +219,18 @@ export default function AdminSurveillancePage() {
                         className="absolute inset-0"
                         style={getZoomStyle()}
                     >
-                        <Image
-                        src={mapImage || "https://images.unsplash.com/photo-1599839603058-2d79a29d3c10?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8A%3D%3D"}
-                        alt="Map of farmland"
-                        fill
-                        className={cn("object-cover", (surveyState !== 'locked' && surveyState !== 'surveying' && surveyState !== 'complete') && 'brightness-75')}
-                        data-ai-hint="map farmland"
-                        />
+                        {mapImage ? (
+                            <Image
+                                src={mapImage}
+                                alt="Map of farmland"
+                                fill
+                                className={cn("object-cover", (surveyState !== 'locked' && surveyState !== 'surveying' && surveyState !== 'complete') && 'brightness-75')}
+                            />
+                        ) : (
+                             <div className="w-full h-full flex items-center justify-center bg-muted">
+                                <p className="text-muted-foreground">Upload an image to start</p>
+                             </div>
+                        )}
                         
                         {(surveyState === 'idle' ) && <div className="absolute inset-0 bg-black/50" />}
 
@@ -299,7 +310,7 @@ export default function AdminSurveillancePage() {
                     )}
                     {surveyState === 'locked' && (
                         <>
-                             <Button variant="outline" onClick={() => {setSurveyState('pinning'); setPoints([])}}>
+                             <Button variant="outline" onClick={handleRestart}>
                                 <MapPin className="mr-2 h-5 w-5" />
                                 Restart
                             </Button>
@@ -353,3 +364,4 @@ export default function AdminSurveillancePage() {
 
 }
 
+    
