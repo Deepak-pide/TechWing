@@ -20,7 +20,7 @@ export default function AdminDashboardPage() {
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                     data-ai-hint="drone surveillance"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/20" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent" />
                 <div className="relative flex flex-col h-full p-6">
                     <CardHeader className="p-0">
                         <div className="flex items-center justify-between">
@@ -29,7 +29,7 @@ export default function AdminDashboardPage() {
                         </div>
                     </CardHeader>
                     <CardContent className="p-0 flex-grow mt-4">
-                        <p className="text-sm text-primary-foreground/80 mb-4">
+                        <p className="text-sm text-primary-foreground/80 mb-4 max-w-xs">
                             Monitor active drone surveillance and review past footage.
                         </p>
                     </CardContent>
@@ -50,7 +50,7 @@ export default function AdminDashboardPage() {
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                     data-ai-hint="drone spraying"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/20" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent" />
                  <div className="relative flex flex-col h-full p-6">
                     <CardHeader className="p-0">
                        <div className="flex items-center justify-between">
@@ -59,7 +59,7 @@ export default function AdminDashboardPage() {
                         </div>
                     </CardHeader>
                     <CardContent className="p-0 flex-grow mt-4">
-                        <p className="text-sm text-primary-foreground/80 mb-4">
+                        <p className="text-sm text-primary-foreground/80 mb-4 max-w-xs">
                             Manage spraying schedules, assignments, and pesticide inventory.
                         </p>
                     </CardContent>
