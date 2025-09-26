@@ -35,7 +35,7 @@ export default function AdminSurveillancePage() {
     if (surveyState === 'surveying') {
       const timer = setTimeout(() => {
         setSurveyState('complete');
-      }, 20000); // Duration of the animation
+      }, 5000); // Shortened duration for reveal
       return () => clearTimeout(timer);
     }
   }, [surveyState]);
@@ -93,8 +93,6 @@ export default function AdminSurveillancePage() {
   }
 
   const handleScheduleSpraying = () => {
-    // In a real app, you'd use a state management library like Redux or Zustand
-    // to manage state across pages. For this simulation, we'll use localStorage.
     const newTask = {
         id: Date.now(),
         farm: 'Green Valley Farms',
@@ -160,21 +158,12 @@ export default function AdminSurveillancePage() {
     <div className="container mx-auto p-4 md:p-8">
         <style>
         {`
-            @keyframes drone-path {
-                0% { offset-distance: 0%; }
-                100% { offset-distance: 100%; }
-            }
-            .drone-animation {
-                offset-path: path('M ${boundingBox.minX + (boundingBox.maxX-boundingBox.minX)*0.1} ${boundingBox.minY + (boundingBox.maxY-boundingBox.minY)*0.1} L ${boundingBox.maxX - (boundingBox.maxX-boundingBox.minX)*0.1} ${boundingBox.minY + (boundingBox.maxY-boundingBox.minY)*0.1} L ${boundingBox.maxX - (boundingBox.maxX-boundingBox.minX)*0.1} ${boundingBox.minY + (boundingBox.maxY-boundingBox.minY)*0.3} L ${boundingBox.minX + (boundingBox.maxX-boundingBox.minX)*0.1} ${boundingBox.minY + (boundingBox.maxY-boundingBox.minY)*0.3} L ${boundingBox.minX + (boundingBox.maxX-boundingBox.minX)*0.1} ${boundingBox.minY + (boundingBox.maxY-boundingBox.minY)*0.5} L ${boundingBox.maxX - (boundingBox.maxX-boundingBox.minX)*0.1} ${boundingBox.minY + (boundingBox.maxY-boundingBox.minY)*0.5} L ${boundingBox.maxX - (boundingBox.maxX-boundingBox.minX)*0.1} ${boundingBox.minY + (boundingBox.maxY-boundingBox.minY)*0.7} L ${boundingBox.minX + (boundingBox.maxX-boundingBox.minX)*0.1} ${boundingBox.minY + (boundingBox.maxY-boundingBox.minY)*0.7} L ${boundingBox.minX + (boundingBox.maxX-boundingBox.minX)*0.1} ${boundingBox.minY + (boundingBox.maxY-boundingBox.minY)*0.9} L ${boundingBox.maxX - (boundingBox.maxX-boundingBox.minX)*0.1} ${boundingBox.minY + (boundingBox.maxY-boundingBox.minY)*0.9}');
-                animation: drone-path 20s linear forwards;
-            }
-            
             @keyframes heatmap-reveal {
                 from { clip-path: inset(0 100% 0 0); }
                 to { clip-path: inset(0 0 0 0); }
             }
             .heatmap-animation {
-                animation: heatmap-reveal 20s linear forwards;
+                animation: heatmap-reveal 5s linear forwards;
             }
 
             @keyframes feed-in {
@@ -271,17 +260,14 @@ export default function AdminSurveillancePage() {
                                 />
                             )}
                             {(surveyState === 'surveying' || surveyState === 'complete') && points.length > 2 && (
-                                <g key={animationKey} className={surveyState === 'surveying' ? 'heatmap-animation': ''}>
-                                    <foreignObject x={boundingBox.minX} y={boundingBox.minY} width={boundingBox.maxX - boundingBox.minX} height={boundingBox.maxY - boundingBox.minY}>
+                                <g key={animationKey}>
+                                    <foreignObject x={boundingBox.minX} y={boundingBox.minY} width={boundingBox.maxX - boundingBox.minX} height={boundingBox.maxY - boundingBox.minY} className={surveyState === 'surveying' ? 'heatmap-animation': ''}>
                                         <div 
                                             className="w-full h-full bg-gradient-to-r from-green-500/70 via-yellow-500/70 to-red-500/70"
                                             style={{ clipPath: `polygon(${points.map(p => `${(p.x - boundingBox.minX) * (100/(boundingBox.maxX - boundingBox.minX))}% ${(p.y - boundingBox.minY) * (100/(boundingBox.maxY - boundingBox.minY))}%`).join(', ')})` }}
                                         />
                                     </foreignObject>
                                 </g>
-                            )}
-                            {surveyState === 'surveying' && points.length > 2 && (
-                                <Send key={animationKey} className="drone-animation h-5 w-5 text-white -rotate-45" style={{ motionOffset: ['0%','100%'], vectorEffect: "non-scaling-stroke" }} />
                             )}
                         </svg>
                     </div>
@@ -357,7 +343,7 @@ export default function AdminSurveillancePage() {
             </Card>
         </div>
         <div className={cn("lg:col-span-1", (surveyState !== 'surveying' && surveyState !== 'complete') && "hidden lg:block lg:opacity-0")}>
-             <Card className="feed-in-animation">
+             <Card className={cn((surveyState === 'surveying' || surveyState === 'complete') && 'feed-in-animation')}>
                 <CardHeader>
                     <CardTitle>Threat Detection Feed</CardTitle>
                     <CardDescription>Live images of potential threats.</CardDescription>
@@ -388,5 +374,3 @@ export default function AdminSurveillancePage() {
   );
 
 }
-
-    
