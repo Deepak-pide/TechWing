@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/context/AuthContext";
 
 export const metadata: Metadata = {
-  title: "BetaFlight",
+  title: "TechWing",
   description: "Modern Farming Management",
 };
 
