@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -6,13 +7,18 @@ import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
 
 const loggedInLinks = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/crops", label: "Crops" },
   { href: "/profile", label: "Profile" },
 ];
+
+const adminLinks = [
+  { href: "/admin/dashboard", label: "Admin Dashboard" },
+  // Add other admin links here
+];
+
 
 const loggedOutLinks = [
   { href: "/", label: "Home" },
@@ -24,14 +30,17 @@ const loggedOutLinks = [
 export default function Header() {
   const pathname = usePathname();
   const isMobile = useIsMobile();
-  const { isAuthenticated, logout, loading } = useAuth();
-  const router = useRouter();
+  const { isAuthenticated, logout, loading, userRole } = useAuth();
 
-  const navLinks = isAuthenticated ? loggedInLinks : loggedOutLinks;
-
+  let navLinks;
+  if (isAuthenticated) {
+    navLinks = userRole === 'admin' ? adminLinks : loggedInLinks;
+  } else {
+    navLinks = loggedOutLinks;
+  }
+  
   const handleLogout = () => {
     logout();
-    router.push("/");
   };
 
   return (

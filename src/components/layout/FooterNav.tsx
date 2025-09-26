@@ -1,14 +1,16 @@
+
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, User, Wheat, BarChartHorizontal, Briefcase } from "lucide-react";
+import { LayoutGrid, User, Wheat, BarChartHorizontal, Briefcase, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 
 const commonLinks = [
   { href: "/", label: "Home", icon: LayoutGrid },
   { href: "/services", label: "Services", icon: Briefcase },
+  { href: "/profile", label: "Profile", icon: User },
 ];
 
 const loggedInLinks = [
@@ -17,21 +19,35 @@ const loggedInLinks = [
   { href: "/profile", label: "Profile", icon: User },
 ];
 
-const loggedOutLinks = [
-    ...commonLinks,
+const adminLinks = [
+    { href: "/admin/dashboard", label: "Admin", icon: ShieldCheck },
     { href: "/profile", label: "Profile", icon: User },
 ];
 
-
 export default function FooterNav() {
   const pathname = usePathname();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, userRole } = useAuth();
 
-  const navLinks = isAuthenticated ? loggedInLinks : loggedOutLinks;
+  let navLinks;
+  let navClass = "grid-cols-3";
+
+  if (isAuthenticated) {
+      if (userRole === 'admin') {
+          navLinks = adminLinks;
+          navClass = "grid-cols-2";
+      } else {
+          navLinks = loggedInLinks;
+          navClass = "grid-cols-3";
+      }
+  } else {
+      navLinks = commonLinks;
+      navClass = "grid-cols-3";
+  }
+
 
   return (
     <footer className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <nav className="grid h-16 grid-cols-3">
+      <nav className={`grid h-16 ${navClass}`}>
         {navLinks.map((link) => {
           const Icon = link.icon;
           const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
