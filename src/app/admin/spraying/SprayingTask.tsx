@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { AlertTriangle, Calendar, Map, Check, X } from 'lucide-react';
 import type { SprayingTask } from './tasks';
 import { cn } from '@/lib/utils';
+import { useRouter } from 'next/navigation';
 
 interface SprayingTaskProps {
   task: SprayingTask;
@@ -20,6 +21,12 @@ const statusConfig = {
 
 export default function SprayingTask({ task, onUpdate }: SprayingTaskProps) {
   const { id, farm, area, threat, status, date, mapImage } = task;
+  const router = useRouter();
+
+  const handleAccept = () => {
+    onUpdate(id, 'Accepted');
+    router.push(`/admin/spraying/${id}`);
+  }
 
   return (
     <Card className="overflow-hidden">
@@ -66,8 +73,15 @@ export default function SprayingTask({ task, onUpdate }: SprayingTaskProps) {
                     <Button variant="outline" size="sm" onClick={() => onUpdate(id, 'Declined')}>
                         <X className="mr-2" /> Decline
                     </Button>
-                    <Button size="sm" onClick={() => onUpdate(id, 'Accepted')}>
+                    <Button size="sm" onClick={handleAccept}>
                        <Check className="mr-2" /> Accept & Schedule
+                    </Button>
+                </CardFooter>
+            )}
+            {status === 'Accepted' && (
+                 <CardFooter className="justify-end gap-2">
+                    <Button size="sm" onClick={() => router.push(`/admin/spraying/${id}`)}>
+                       View Mission
                     </Button>
                 </CardFooter>
             )}

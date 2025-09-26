@@ -6,35 +6,67 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { initialTasks, SprayingTask as SprayingTaskType } from './tasks';
 import SprayingTask from './SprayingTask';
+import { useRouter } from 'next/navigation';
 
 export default function AdminSprayingPage() {
-  const [tasks, setTasks] = useState<SprayingTaskType[]>(initialTasks);
-
+  const [tasks, setTasks] = useState<SprayingTaskType[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
+  const router = useRouter();
+  
   useEffect(() => {
-    // On component mount, check localStorage for new tasks and add them to the state.
-    try {
-      const storedTasks = JSON.parse(localStorage.getItem('sprayingTasks') || '[]');
-      if (storedTasks.length > 0) {
-        // Simple merge: assumes new tasks from localStorage are not already in initialTasks
-        setTasks(prevTasks => {
-            const existingIds = new Set(prevTasks.map(t => t.id));
-            const newTasks = storedTasks.filter((t: SprayingTaskType) => !existingIds.has(t.id));
-            return [...prevTasks, ...newTasks];
-        });
-      }
-    } catch (error) {
-      console.error("Could not load tasks from localStorage", error);
-    }
+    setIsMounted(true);
   }, []);
 
+
+  useEffect(() => {
+    if (!isMounted) return;
+    // On component mount, check localStorage for new tasks and add them to the state.
+    try {
+      const storedTasksString = localStorage.getItem('sprayingTasks') || '[]';
+      const storedTasks = JSON.parse(storedTasksString);
+      
+      const allTasks = [...initialTasks];
+      const existingIds = new Set(allTasks.map(t => t.id));
+
+      const newTasksFromStorage = storedTasks.filter((t: SprayingTaskType) => !existingIds.has(t.id));
+      
+      const tasksWithStatusString = localStorage.getItem('tasksWithStatus');
+      const tasksWithStatus = tasksWithStatusString ? JSON.parse(tasksWithStatusString) : {};
+
+      const combinedTasks = [...allTasks, ...newTasksFromStorage].map(task => ({
+          ...task,
+          status: tasksWithStatus[task.id] || task.status,
+      }));
+
+      setTasks(combinedTasks);
+
+    } catch (error) {
+      console.error("Could not load tasks from localStorage", error);
+       setTasks(initialTasks);
+    }
+  }, [isMounted]);
+
   const handleTaskUpdate = (taskId: number, status: 'Accepted' | 'Declined') => {
-    setTasks(tasks.map(task => 
+    const updatedTasks = tasks.map(task => 
         task.id === taskId 
         ? { ...task, status: status }
         : task
-    ));
-    // In a real app, you would also update localStorage or a backend here.
+    );
+    setTasks(updatedTasks);
+    
+    try {
+        const tasksWithStatusString = localStorage.getItem('tasksWithStatus');
+        const tasksWithStatus = tasksWithStatusString ? JSON.parse(tasksWithStatusString) : {};
+        tasksWithStatus[taskId] = status;
+        localStorage.setItem('tasksWithStatus', JSON.stringify(tasksWithStatus));
+    } catch(error) {
+        console.error("Could not save task status to localStorage", error);
+    }
   };
+
+  if (!isMounted) {
+      return null; // or a loading spinner
+  }
 
   const newTasks = tasks.filter(t => t.status === 'New');
   const acceptedTasks = tasks.filter(t => t.status === 'Accepted');
@@ -80,7 +112,7 @@ export default function AdminSprayingPage() {
             <CardContent className="space-y-6">
                {acceptedTasks.length > 0 ? (
                 acceptedTasks.map(task => (
-                  <SprayingTask key={task.id} task={task} onUpdate={() => {}} />
+                  <SprayingTask key={task.id} task={task} onUpdate={handleTaskUpdate} />
                 ))
               ) : (
                 <p className="text-muted-foreground text-center py-8">No accepted jobs.</p>
@@ -111,5 +143,3 @@ export default function AdminSprayingPage() {
     </div>
   );
 }
-
-    
