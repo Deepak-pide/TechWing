@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -7,7 +6,7 @@ import type { MouseEvent } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Layers, Maximize, Upload, X, MapPin, RefreshCw, Send, ScanLine, CheckCircle, AlertTriangle } from "lucide-react";
+import { Layers, Maximize, Upload, X, MapPin, RefreshCw, Send, ScanLine, CheckCircle, AlertTriangle, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { useRouter } from "next/navigation";
@@ -27,7 +26,7 @@ const pestImages = [
 export default function AdminSurveillancePage() {
   const [mapImage, setMapImage] = useState<string | null>(null);
   const [points, setPoints] = useState<Point[]>([]);
-  const [surveyState, setSurveyState] = useState<'idle' | 'pinning' | 'surveying' | 'complete'>('idle');
+  const [surveyState, setSurveyState] = useState<'idle' | 'pinning' | 'locked' | 'surveying' | 'complete'>('idle');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [animationKey, setAnimationKey] = useState(0);
   const router = useRouter();
@@ -70,6 +69,11 @@ export default function AdminSurveillancePage() {
   const clearPoints = () => {
     setPoints([]);
   }
+
+  const handleLockArea = () => {
+      if (points.length < 3) return;
+      setSurveyState('locked');
+  }
   
   const handleStartSurvey = () => {
     if (points.length < 3) return;
@@ -99,7 +103,8 @@ export default function AdminSurveillancePage() {
     }, { minX: 100, maxX: 0, minY: 100, maxY: 0 });
 
     const getZoomStyle = () => {
-        if (surveyState !== 'surveying' || points.length < 3) return {};
+        if (surveyState !== 'locked' && surveyState !== 'surveying') return {};
+        if (points.length < 3) return {};
 
         const boxWidth = boundingBox.maxX - boundingBox.minX;
         const boxHeight = boundingBox.maxY - boundingBox.minY;
@@ -115,6 +120,7 @@ export default function AdminSurveillancePage() {
 
         return {
             transform: `scale(${scale}) translate(${translateX}%, ${translateY}%)`,
+            transition: 'transform 1s ease-in-out'
         };
     };
 
@@ -182,22 +188,24 @@ export default function AdminSurveillancePage() {
                 <CardTitle>
                     {surveyState === 'idle' && "Mission Control"}
                     {surveyState === 'pinning' && "Define Survey Area"}
+                    {surveyState === 'locked' && "Confirm Survey Area"}
                     {surveyState === 'surveying' && "Survey in Progress..."}
                 </CardTitle>
                 <CardDescription>
                     {surveyState === 'idle' && "Upload a land image to begin."}
                     {surveyState === 'pinning' && "Click to drop pins and outline the survey zone."}
+                    {surveyState === 'locked' && "Area locked. Ready to start surveying."}
                     {surveyState === 'surveying' && "Drone is scanning the selected area."}
                 </CardDescription>
                 </CardHeader>
                 <CardContent>
                 <div className="relative aspect-video w-full rounded-lg overflow-hidden border bg-muted/20" onClick={handleMapClick}>
                     <div 
-                        className="absolute inset-0 transition-transform duration-1000 ease-in-out"
+                        className="absolute inset-0"
                         style={getZoomStyle()}
                     >
                         <Image
-                        src={mapImage || "https://images.unsplash.com/photo-1599839603058-2d79a29d3c10?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
+                        src={mapImage || "https://images.unsplash.com/photo-1599839603058-2d79a29d3c10?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8A%3D%3D"}
                         alt="Map of farmland"
                         fill
                         className="object-cover"
@@ -253,36 +261,52 @@ export default function AdminSurveillancePage() {
                     </div>
                 </div>
                 <div className="mt-6 flex justify-center gap-4">
-                    {surveyState !== 'surveying' ? (
-                    <>
-                        <input
-                        type="file"
-                        ref={fileInputRef}
-                        onChange={handleImageUpload}
-                        accept="image/*"
-                        className="hidden"
-                        />
-                        <Button variant="outline" onClick={handleUploadClick}>
-                            <Upload className="mr-2 h-5 w-5" />
-                            Upload Image
-                        </Button>
-                        {points.length > 0 && surveyState === 'pinning' && (
-                            <Button variant="destructive" onClick={clearPoints}>
+                    {surveyState === 'idle' && (
+                        <>
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                onChange={handleImageUpload}
+                                accept="image/*"
+                                className="hidden"
+                            />
+                            <Button variant="outline" onClick={handleUploadClick}>
+                                <Upload className="mr-2 h-5 w-5" />
+                                Upload Image
+                            </Button>
+                        </>
+                    )}
+                    {surveyState === 'pinning' && (
+                        <>
+                            <Button variant="destructive" onClick={clearPoints} disabled={points.length === 0}>
                                 <X className="mr-2 h-5 w-5" />
                                 Clear Pins
                             </Button>
-                        )}
-                        <Button size="lg" onClick={handleStartSurvey} disabled={points.length < 3}>
-                        <ScanLine className="mr-2 h-5 w-5" />
-                        Start Survey
-                        </Button>
-                    </>
-                    ) : (
-                        <Button size="lg" variant="outline" onClick={handleResetSurvey} disabled={surveyState !== 'surveying'}>
-                            <RefreshCw className="mr-2 h-5 w-5" />
-                            Resetting...
+                            <Button size="lg" onClick={handleLockArea} disabled={points.length < 3}>
+                                <Lock className="mr-2 h-5 w-5" />
+                                Lock Area
+                            </Button>
+                        </>
+                    )}
+                    {surveyState === 'locked' && (
+                        <>
+                             <Button variant="outline" onClick={() => setSurveyState('pinning')}>
+                                <MapPin className="mr-2 h-5 w-5" />
+                                Adjust Pins
+                            </Button>
+                             <Button size="lg" onClick={handleStartSurvey}>
+                                <ScanLine className="mr-2 h-5 w-5" />
+                                Start Surveying
+                            </Button>
+                        </>
+                    )}
+                     {surveyState === 'surveying' && (
+                        <Button size="lg" variant="outline" onClick={handleResetSurvey} disabled>
+                            <RefreshCw className="mr-2 h-5 w-5 animate-spin" />
+                            Surveying...
                         </Button>
                     )}
+
                 </div>
                 </CardContent>
             </Card>
@@ -319,3 +343,5 @@ export default function AdminSurveillancePage() {
   );
 
 }
+
+    
