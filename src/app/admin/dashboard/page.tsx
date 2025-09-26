@@ -14,7 +14,7 @@ export default function AdminDashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <Card className="relative overflow-hidden group">
                 <Image 
-                    src="https://picsum.photos/seed/drone1/600/400"
+                    src="https://picsum.photos/seed/surveillance/800/600"
                     alt="Drone Surveillance"
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -44,7 +44,7 @@ export default function AdminDashboardPage() {
             </Card>
             <Card className="relative overflow-hidden group">
                 <Image 
-                    src="https://picsum.photos/seed/drone2/600/400"
+                    src="https://picsum.photos/seed/spraying/800/600"
                     alt="Drone Spraying"
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
