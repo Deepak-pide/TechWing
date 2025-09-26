@@ -83,7 +83,7 @@ export default function AdminSurveillancePage() {
 
   const handleResetSurvey = () => {
     setSurveyState(mapImage ? 'pinning' : 'idle');
-    // No need to clear points, user can restart on same area or clear manually
+    setPoints([]);
   }
 
   const handleScheduleSpraying = () => {
@@ -103,7 +103,7 @@ export default function AdminSurveillancePage() {
     }, { minX: 100, maxX: 0, minY: 100, maxY: 0 });
 
     const getZoomStyle = () => {
-        if (surveyState !== 'locked' && surveyState !== 'surveying') return {};
+        if (surveyState !== 'locked' && surveyState !== 'surveying' && surveyState !== 'complete') return {};
         if (points.length < 3) return {};
 
         const boxWidth = boundingBox.maxX - boundingBox.minX;
@@ -115,8 +115,9 @@ export default function AdminSurveillancePage() {
         const scaleY = 100 / boxHeight;
         const scale = Math.min(scaleX, scaleY) * 0.9; // 0.9 for some padding
 
-        const translateX = -(boundingBox.minX - (100 - boxWidth * scale) / (2 * scale) );
-        const translateY = -(boundingBox.minY - (100 - boxHeight * scale) / (2 * scale) );
+        const translateX = -(boundingBox.minX + (boxWidth / 2) - 50 / scale);
+        const translateY = -(boundingBox.minY + (boxHeight / 2) - 50 / scale);
+
 
         return {
             transform: `scale(${scale}) translate(${translateX}%, ${translateY}%)`,
@@ -133,7 +134,7 @@ export default function AdminSurveillancePage() {
                 100% { offset-distance: 100%; }
             }
             .drone-animation {
-                offset-path: path('M ${boundingBox.minX} ${boundingBox.minY + 5} H ${boundingBox.maxX} V ${boundingBox.minY + 15} H ${boundingBox.minX} V ${boundingBox.minY + 25} H ${boundingBox.maxX} V ${boundingBox.minY + 35} H ${boundingBox.minX} V ${boundingBox.minY + 45} H ${boundingBox.maxX} V ${boundingBox.minY + 55} H ${boundingBox.minX} V ${boundingBox.minY + 65} H ${boundingBox.maxX} V ${boundingBox.minY + 75} H ${boundingBox.minX} V ${boundingBox.minY + 85} H ${boundingBox.maxX}');
+                offset-path: path('M ${boundingBox.minX + (boundingBox.maxX-boundingBox.minX)*0.1} ${boundingBox.minY + (boundingBox.maxY-boundingBox.minY)*0.1} L ${boundingBox.maxX - (boundingBox.maxX-boundingBox.minX)*0.1} ${boundingBox.minY + (boundingBox.maxY-boundingBox.minY)*0.1} L ${boundingBox.maxX - (boundingBox.maxX-boundingBox.minX)*0.1} ${boundingBox.minY + (boundingBox.maxY-boundingBox.minY)*0.3} L ${boundingBox.minX + (boundingBox.maxX-boundingBox.minX)*0.1} ${boundingBox.minY + (boundingBox.maxY-boundingBox.minY)*0.3} L ${boundingBox.minX + (boundingBox.maxX-boundingBox.minX)*0.1} ${boundingBox.minY + (boundingBox.maxY-boundingBox.minY)*0.5} L ${boundingBox.maxX - (boundingBox.maxX-boundingBox.minX)*0.1} ${boundingBox.minY + (boundingBox.maxY-boundingBox.minY)*0.5} L ${boundingBox.maxX - (boundingBox.maxX-boundingBox.minX)*0.1} ${boundingBox.minY + (boundingBox.maxY-boundingBox.minY)*0.7} L ${boundingBox.minX + (boundingBox.maxX-boundingBox.minX)*0.1} ${boundingBox.minY + (boundingBox.maxY-boundingBox.minY)*0.7} L ${boundingBox.minX + (boundingBox.maxX-boundingBox.minX)*0.1} ${boundingBox.minY + (boundingBox.maxY-boundingBox.minY)*0.9} L ${boundingBox.maxX - (boundingBox.maxX-boundingBox.minX)*0.1} ${boundingBox.minY + (boundingBox.maxY-boundingBox.minY)*0.9}');
                 animation: drone-path 20s linear forwards;
             }
             
@@ -143,6 +144,14 @@ export default function AdminSurveillancePage() {
             }
             .heatmap-animation {
                 animation: heatmap-reveal 20s linear forwards;
+            }
+
+            @keyframes feed-in {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .feed-in-animation {
+                animation: feed-in 0.5s ease-out forwards;
             }
         `}
         </style>
@@ -164,7 +173,7 @@ export default function AdminSurveillancePage() {
                     <p>The drone has completed its scan of the designated area. The following threats were detected:</p>
                     <div className="my-4 grid grid-cols-4 gap-2">
                         {pestImages.map((img, index) => (
-                            <Image key={index} src={img.src} alt={img.alt} width={64} height={64} className="rounded-md object-cover" />
+                            <Image key={index} src={img.src} alt={img.alt} width={64} height={64} className="rounded-md object-cover" data-ai-hint={img.hint} />
                         ))}
                     </div>
                     <div className="p-4 rounded-md bg-destructive/10 border border-destructive/30">
@@ -181,7 +190,7 @@ export default function AdminSurveillancePage() {
         </AlertDialogContent>
       </AlertDialog>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         <div className="lg:col-span-2">
             <Card>
                 <CardHeader>
@@ -189,17 +198,17 @@ export default function AdminSurveillancePage() {
                     {surveyState === 'idle' && "Mission Control"}
                     {surveyState === 'pinning' && "Define Survey Area"}
                     {surveyState === 'locked' && "Confirm Survey Area"}
-                    {surveyState === 'surveying' && "Survey in Progress..."}
+                    {(surveyState === 'surveying' || surveyState === 'complete') && "Survey in Progress..."}
                 </CardTitle>
                 <CardDescription>
                     {surveyState === 'idle' && "Upload a land image to begin."}
                     {surveyState === 'pinning' && "Click to drop pins and outline the survey zone."}
                     {surveyState === 'locked' && "Area locked. Ready to start surveying."}
-                    {surveyState === 'surveying' && "Drone is scanning the selected area."}
+                    {(surveyState === 'surveying' || surveyState === 'complete') && "Drone is scanning the selected area."}
                 </CardDescription>
                 </CardHeader>
                 <CardContent>
-                <div className="relative aspect-video w-full rounded-lg overflow-hidden border bg-muted/20" onClick={handleMapClick}>
+                <div className={cn("relative aspect-video w-full rounded-lg overflow-hidden border bg-muted/20", surveyState === 'pinning' && 'cursor-crosshair')} onClick={handleMapClick}>
                     <div 
                         className="absolute inset-0"
                         style={getZoomStyle()}
@@ -208,29 +217,29 @@ export default function AdminSurveillancePage() {
                         src={mapImage || "https://images.unsplash.com/photo-1599839603058-2d79a29d3c10?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8A%3D%3D"}
                         alt="Map of farmland"
                         fill
-                        className="object-cover"
+                        className={cn("object-cover", (surveyState !== 'locked' && surveyState !== 'surveying' && surveyState !== 'complete') && 'brightness-75')}
                         data-ai-hint="map farmland"
                         />
                         
-                        {(surveyState === 'idle' || (surveyState === 'surveying' && points.length === 0)) && <div className="absolute inset-0 bg-black/50" />}
-                        {surveyState === 'pinning' && <div className="absolute inset-0 bg-black/20 cursor-crosshair" />}
+                        {(surveyState === 'idle' ) && <div className="absolute inset-0 bg-black/50" />}
 
                         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
                             {points.length > 2 && (
                                 <polygon
                                     points={polygonPoints}
                                     className={cn(
-                                        "stroke-primary stroke-[0.5px]",
-                                        surveyState === 'surveying' ? "fill-primary/20" : "fill-primary/30 stroke-2"
+                                        "stroke-primary stroke-1",
+                                        surveyState === 'surveying' || surveyState === 'complete' ? "fill-primary/20" : "fill-primary/30"
                                     )}
+                                    style={{vectorEffect: "non-scaling-stroke"}}
                                 />
                             )}
-                            {surveyState === 'surveying' && points.length > 2 && (
-                                <g key={animationKey} className="heatmap-animation">
+                            {(surveyState === 'surveying' || surveyState === 'complete') && points.length > 2 && (
+                                <g key={animationKey} className={surveyState === 'surveying' ? 'heatmap-animation': ''}>
                                     <foreignObject x={boundingBox.minX} y={boundingBox.minY} width={boundingBox.maxX - boundingBox.minX} height={boundingBox.maxY - boundingBox.minY}>
                                         <div 
-                                            className="w-full h-full bg-gradient-to-r from-green-500 via-yellow-500 to-red-500 opacity-60"
-                                            style={{ clipPath: `polygon(${points.map(p => `${p.x - boundingBox.minX} ${p.y - boundingBox.minY}`).join(', ')})` }}
+                                            className="w-full h-full bg-gradient-to-r from-green-500/70 via-yellow-500/70 to-red-500/70"
+                                            style={{ clipPath: `polygon(${points.map(p => `${(p.x - boundingBox.minX) * (100/(boundingBox.maxX - boundingBox.minX))}% ${(p.y - boundingBox.minY) * (100/(boundingBox.maxY - boundingBox.minY))}%`).join(', ')})` }}
                                         />
                                     </foreignObject>
                                 </g>
@@ -290,9 +299,9 @@ export default function AdminSurveillancePage() {
                     )}
                     {surveyState === 'locked' && (
                         <>
-                             <Button variant="outline" onClick={() => setSurveyState('pinning')}>
+                             <Button variant="outline" onClick={() => {setSurveyState('pinning'); setPoints([])}}>
                                 <MapPin className="mr-2 h-5 w-5" />
-                                Adjust Pins
+                                Restart
                             </Button>
                              <Button size="lg" onClick={handleStartSurvey}>
                                 <ScanLine className="mr-2 h-5 w-5" />
@@ -300,8 +309,8 @@ export default function AdminSurveillancePage() {
                             </Button>
                         </>
                     )}
-                     {surveyState === 'surveying' && (
-                        <Button size="lg" variant="outline" onClick={handleResetSurvey} disabled>
+                     {(surveyState === 'surveying' || surveyState === 'complete') && (
+                        <Button size="lg" variant="outline" disabled>
                             <RefreshCw className="mr-2 h-5 w-5 animate-spin" />
                             Surveying...
                         </Button>
@@ -311,8 +320,8 @@ export default function AdminSurveillancePage() {
                 </CardContent>
             </Card>
         </div>
-        <div className="lg:col-span-1">
-             <Card>
+        <div className={cn("lg:col-span-1", (surveyState !== 'surveying' && surveyState !== 'complete') && "hidden")}>
+             <Card className="feed-in-animation">
                 <CardHeader>
                     <CardTitle>Threat Detection Feed</CardTitle>
                     <CardDescription>Live images of potential threats.</CardDescription>
@@ -344,4 +353,3 @@ export default function AdminSurveillancePage() {
 
 }
 
-    
