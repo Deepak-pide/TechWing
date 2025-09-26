@@ -15,8 +15,9 @@ const loggedInLinks = [
 ];
 
 const adminLinks = [
-  { href: "/admin/dashboard", label: "Admin Dashboard" },
-  // Add other admin links here
+  { href: "/admin/dashboard", label: "Console" },
+  { href: "/admin/orders", label: "Orders" },
+  { href: "/admin/settings", label: "Settings" },
 ];
 
 

@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutGrid, User, Wheat, BarChartHorizontal, Briefcase, ShieldCheck } from "lucide-react";
+import { LayoutGrid, User, Wheat, BarChartHorizontal, Briefcase, ShieldCheck, ShoppingCart, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 
@@ -20,8 +20,9 @@ const loggedInLinks = [
 ];
 
 const adminLinks = [
-    { href: "/admin/dashboard", label: "Admin", icon: ShieldCheck },
-    { href: "/profile", label: "Profile", icon: User },
+    { href: "/admin/dashboard", label: "Console", icon: ShieldCheck },
+    { href: "/admin/orders", label: "Orders", icon: ShoppingCart },
+    { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
 
 export default function FooterNav() {
@@ -34,7 +35,7 @@ export default function FooterNav() {
   if (isAuthenticated) {
       if (userRole === 'admin') {
           navLinks = adminLinks;
-          navClass = "grid-cols-2";
+          navClass = "grid-cols-3";
       } else {
           navLinks = loggedInLinks;
           navClass = "grid-cols-3";

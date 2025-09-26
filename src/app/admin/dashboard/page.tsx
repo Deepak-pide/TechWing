@@ -6,7 +6,7 @@ export default function AdminDashboardPage() {
     <div className="container mx-auto p-4 md:p-8">
         <Card>
             <CardHeader>
-                <CardTitle className="font-headline text-3xl">Admin Dashboard</CardTitle>
+                <CardTitle className="font-headline text-3xl">Admin Console</CardTitle>
                 <CardDescription>Welcome, Admin! Manage your application from here.</CardDescription>
             </CardHeader>
             <CardContent>
