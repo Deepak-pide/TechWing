@@ -34,7 +34,7 @@ export default function AdminDashboardPage() {
                         </p>
                     </CardContent>
                     <div className="mt-auto">
-                        <Link href="#">
+                        <Link href="/admin/surveillance">
                             <Button variant="secondary">
                                 Go to Surveillance <ArrowRight className="ml-2 h-4 w-4" />
                             </Button>
