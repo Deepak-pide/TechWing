@@ -1,24 +1,57 @@
 
-import { initialTasks } from '../tasks';
+"use client";
+
+import { initialTasks, type SprayingTask as SprayingTaskType } from '../tasks';
 import SprayingControl from './SprayingControl';
+import { useEffect, useState } from 'react';
 
 export default function SprayingMissionPage({ params }: { params: { id: string } }) {
-  // In a real app, you'd fetch this from a database or a global state management solution
-  // For now, we'll find it in our initialTasks array and localStorage.
-  
-  let allTasks = [...initialTasks];
-  if (typeof window !== 'undefined') {
-    try {
-      const storedTasks = JSON.parse(localStorage.getItem('sprayingTasks') || '[]');
-      const existingIds = new Set(allTasks.map(t => t.id));
-      const newTasks = storedTasks.filter((t: any) => !existingIds.has(t.id));
-      allTasks = [...allTasks, ...newTasks];
-    } catch (e) {
-      console.error("Could not parse tasks from localStorage", e);
-    }
-  }
+  const [task, setTask] = useState<SprayingTaskType | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const task = allTasks.find(t => t.id === parseInt(params.id, 10));
+  useEffect(() => {
+    // In a real app, you'd fetch this from a database.
+    // For this simulation, we reconstruct the state from initial tasks and localStorage.
+    
+    // Combine initial tasks with tasks from localStorage
+    const storedTasksString = localStorage.getItem('sprayingTasks') || '[]';
+    const storedTasks = JSON.parse(storedTasksString);
+    
+    const allTasksById = new Map<number, SprayingTaskType>();
+    
+    // Add initial tasks first
+    initialTasks.forEach(t => allTasksById.set(t.id, { ...t }));
+    
+    // Add/overwrite with tasks from storage (for new tasks)
+    storedTasks.forEach((t: SprayingTaskType) => allTasksById.set(t.id, { ...t }));
+
+    // Get status updates
+    const tasksWithStatusString = localStorage.getItem('tasksWithStatus');
+    const tasksWithStatus = tasksWithStatusString ? JSON.parse(tasksWithStatusString) : {};
+    
+    // Apply status updates
+    allTasksById.forEach(t => {
+      if (tasksWithStatus[t.id]) {
+        t.status = tasksWithStatus[t.id];
+      }
+    });
+
+    const foundTask = allTasksById.get(parseInt(params.id, 10));
+    
+    if (foundTask) {
+      setTask(foundTask);
+    }
+    
+    setLoading(false);
+  }, [params.id]);
+
+  if (loading) {
+     return (
+      <div className="container mx-auto p-4 md:p-8 text-center">
+        <p>Loading task...</p>
+      </div>
+    );
+  }
 
   if (!task) {
     return (

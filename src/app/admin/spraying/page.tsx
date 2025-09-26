@@ -11,7 +11,6 @@ import { useRouter } from 'next/navigation';
 export default function AdminSprayingPage() {
   const [tasks, setTasks] = useState<SprayingTaskType[]>([]);
   const [isMounted, setIsMounted] = useState(false);
-  const router = useRouter();
   
   useEffect(() => {
     setIsMounted(true);
@@ -20,25 +19,33 @@ export default function AdminSprayingPage() {
 
   useEffect(() => {
     if (!isMounted) return;
-    // On component mount, check localStorage for new tasks and add them to the state.
+    
     try {
+      const allTasksById = new Map<number, SprayingTaskType>();
+
+      // Load initial tasks
+      initialTasks.forEach(task => {
+        allTasksById.set(task.id, { ...task });
+      });
+
+      // Load tasks from storage (newly created ones)
       const storedTasksString = localStorage.getItem('sprayingTasks') || '[]';
       const storedTasks = JSON.parse(storedTasksString);
-      
-      const allTasks = [...initialTasks];
-      const existingIds = new Set(allTasks.map(t => t.id));
+      storedTasks.forEach((task: SprayingTaskType) => {
+         allTasksById.set(task.id, { ...task });
+      });
 
-      const newTasksFromStorage = storedTasks.filter((t: SprayingTaskType) => !existingIds.has(t.id));
-      
+      // Load status updates and apply them
       const tasksWithStatusString = localStorage.getItem('tasksWithStatus');
       const tasksWithStatus = tasksWithStatusString ? JSON.parse(tasksWithStatusString) : {};
-
-      const combinedTasks = [...allTasks, ...newTasksFromStorage].map(task => ({
-          ...task,
-          status: tasksWithStatus[task.id] || task.status,
-      }));
-
-      setTasks(combinedTasks);
+      
+      allTasksById.forEach(task => {
+        if (tasksWithStatus[task.id]) {
+          task.status = tasksWithStatus[task.id];
+        }
+      });
+      
+      setTasks(Array.from(allTasksById.values()));
 
     } catch (error) {
       console.error("Could not load tasks from localStorage", error);
