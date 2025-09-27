@@ -16,7 +16,7 @@ const exploreLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-black text-white">
+    <footer className="bg-gray-900 text-white">
       <div className="container mx-auto grid grid-cols-1 gap-8 px-4 py-12 md:grid-cols-2 lg:grid-cols-4 lg:px-8">
         <div className="space-y-4">
           <h3 className="text-xl font-bold font-headline">TechWing</h3>
@@ -86,4 +86,3 @@ export default function Footer() {
     </footer>
   );
 }
-
