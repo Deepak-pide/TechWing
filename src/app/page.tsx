@@ -3,6 +3,7 @@
 
 
 
+
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -37,6 +38,17 @@ const services = [
 export default function HomePage() {
   return (
     <>
+      <style>
+        {`
+            @keyframes feed-in {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .feed-in-animation {
+                animation: feed-in 0.7s ease-out forwards;
+            }
+        `}
+      </style>
       <div className="relative w-full h-[calc(100vh-150px)]">
         <Image
           src="/image.jpg"
@@ -49,8 +61,8 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-black/30" />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white">
-            <h1 className="text-4xl md:text-6xl font-bold font-headline">Welcome to TechWing</h1>
-            <p className="mt-4 text-lg md:text-xl">Your partner in modern farming.</p>
+            <h1 className="text-4xl md:text-6xl font-bold font-headline feed-in-animation">Welcome to TechWing</h1>
+            <p className="mt-4 text-lg md:text-xl feed-in-animation" style={{animationDelay: '0.2s', animationFillMode: 'backwards'}}>Your partner in modern farming.</p>
           </div>
         </div>
       </div>
@@ -72,30 +84,30 @@ export default function HomePage() {
             </p>
           </div>
           <div className="grid grid-cols-2 grid-rows-2 gap-4 h-[400px]">
-              <div className="relative col-span-2 row-span-1 rounded-lg overflow-hidden">
+              <div className="relative col-span-2 row-span-1 rounded-lg overflow-hidden group">
                    <Image
                       src="/dronespray.jpg"
                       alt="Drone spraying a field"
                       fill
-                      className="object-cover"
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
                       data-ai-hint="drone spraying field"
                     />
               </div>
-              <div className="relative col-span-1 row-span-1 rounded-lg overflow-hidden">
+              <div className="relative col-span-1 row-span-1 rounded-lg overflow-hidden group">
                   <Image
                     src="/dronescanning.jpg"
                     alt="Drone scanning a field"
                     fill
-                    className="object-cover"
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
                     data-ai-hint="drone scanning field"
                   />
               </div>
-               <div className="relative col-span-1 row-span-1 rounded-lg overflow-hidden">
+               <div className="relative col-span-1 row-span-1 rounded-lg overflow-hidden group">
                   <Image
                     src="https://images.unsplash.com/photo-1588825838533-3b6391a9957a?q=80&w=1974&auto=format&fit=crop"
                     alt="Drone in hand"
                     fill
-                    className="object-cover"
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
                     data-ai-hint="drone hand"
                   />
               </div>
@@ -111,9 +123,9 @@ export default function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
                 {services.map((service, index) => (
                     <div key={service.title} className={cn("flex flex-col items-center text-center", index === 1 && "md:-translate-y-4 z-10")}>
-                      <Card className={cn("flex flex-col w-full", index === 1 && "shadow-xl")}>
+                      <Card className={cn("flex flex-col w-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1", index === 1 && "shadow-xl")}>
                         <CardHeader className="p-0">
-                            <div className="relative aspect-video w-full">
+                            <div className="relative aspect-video w-full overflow-hidden">
                                 <Image
                                     src={service.image}
                                     alt={service.title}
@@ -151,19 +163,19 @@ export default function HomePage() {
             <h2 className="text-3xl font-bold font-headline mb-12">Why Choose Us</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="flex flex-col items-center">
-                <div className="w-48 h-48 rounded-full bg-accent flex justify-center items-center text-accent-foreground shadow-lg">
+                <div className="w-48 h-48 rounded-full bg-accent flex justify-center items-center text-accent-foreground shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
                     <h3 className="text-5xl font-bold">300+</h3>
                 </div>
                 <p className="mt-4 text-lg">Regular Customers</p>
               </div>
               <div className="flex flex-col items-center">
-                <div className="w-48 h-48 rounded-full bg-accent flex justify-center items-center text-accent-foreground shadow-lg">
+                <div className="w-48 h-48 rounded-full bg-accent flex justify-center items-center text-accent-foreground shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
                     <h3 className="text-5xl font-bold">30+</h3>
                 </div>
                  <p className="mt-4 text-lg">Professional Engineering</p>
               </div>
               <div className="flex flex-col items-center">
-                <div className="w-48 h-48 rounded-full bg-accent flex justify-center items-center text-accent-foreground shadow-lg">
+                <div className="w-48 h-48 rounded-full bg-accent flex justify-center items-center text-accent-foreground shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
                     <h3 className="text-5xl font-bold">300+</h3>
                 </div>
                 <p className="mt-4 text-lg">Points of Sale Goods</p>
