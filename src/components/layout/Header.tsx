@@ -56,7 +56,7 @@ export default function Header() {
         </div>
         
         {!isMobile && (
-          <nav className="flex items-center justify-center flex-1 space-x-6 text-sm font-medium">
+          <nav className="flex items-center justify-center flex-1 space-x-8 text-sm font-medium">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
