@@ -116,24 +116,38 @@ export default function HomePage() {
             </div>
         </div>
       </section>
-       <section className="py-16">
-        <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold font-headline mb-10">Why Choose Us</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="flex flex-col items-center">
-              <h3 className="text-5xl font-bold text-primary">300+</h3>
-              <p className="mt-2 text-lg text-muted-foreground">Regular Customers</p>
-            </div>
-            <div className="flex flex-col items-center">
-              <h3 className="text-5xl font-bold text-primary">30+</h3>
-              <p className="mt-2 text-lg text-muted-foreground">Professional Engineering</p>
-            </div>
-            <div className="flex flex-col items-center">
-              <h3 className="text-5xl font-bold text-primary">300+</h3>
-              <p className="mt-2 text-lg text-muted-foreground">Points of Sale Goods</p>
+       <section className="relative py-24 text-white">
+          <Image
+            src="/background2.jpg"
+            alt="Farm background"
+            fill
+            className="object-cover"
+            data-ai-hint="farm sunset"
+          />
+          <div className="absolute inset-0 bg-black/60" />
+          <div className="relative container mx-auto text-center">
+            <h2 className="text-3xl font-bold font-headline mb-12">Why Choose Us</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="flex flex-col items-center">
+                <div className="w-48 h-48 rounded-full bg-accent flex flex-col justify-center items-center text-accent-foreground shadow-lg">
+                    <h3 className="text-5xl font-bold">300+</h3>
+                    <p className="mt-2 text-lg">Regular Customers</p>
+                </div>
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="w-48 h-48 rounded-full bg-accent flex flex-col justify-center items-center text-accent-foreground shadow-lg">
+                    <h3 className="text-5xl font-bold">30+</h3>
+                    <p className="mt-2 text-lg">Professional Engineering</p>
+                </div>
+              </div>
+              <div className="flex flex-col items-center">
+                <div className="w-48 h-48 rounded-full bg-accent flex flex-col justify-center items-center text-accent-foreground shadow-lg">
+                    <h3 className="text-5xl font-bold">300+</h3>
+                    <p className="mt-2 text-lg">Points of Sale Goods</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
       </section>
       <div id="testimonials" className="scroll-mt-20">
         <Testimonials />
