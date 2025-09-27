@@ -163,7 +163,10 @@ export default function HomePage() {
                 <Input type="text" placeholder="Your Name" />
                 <Input type="tel" placeholder="Phone Number" />
                 <Textarea placeholder="Message" rows={5} />
-                <Button className="w-full">Send</Button>
+                <div className="flex gap-4">
+                    <Input type="text" placeholder="Your Location" className="flex-grow" />
+                    <Button>Send</Button>
+                </div>
             </div>
           </div>
         </div>
