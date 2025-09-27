@@ -12,7 +12,7 @@ export default function ProfilePage() {
 
   if (loading) {
       return (
-          <div className="container mx-auto max-w-2xl p-4 md:p-0">
+          <div className="container mx-auto max-w-2xl p-4 md:p-8">
                 <Card>
                     <CardHeader>
                         <Skeleton className="h-8 w-48" />
@@ -39,7 +39,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="container mx-auto max-w-2xl p-4 md:p-0">
+    <div className="container mx-auto max-w-2xl p-4 md:p-8">
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl font-headline">

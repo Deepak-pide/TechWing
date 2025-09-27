@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function LoginPage() {
   return (
-    <div className="relative flex h-full w-full items-center justify-center p-4">
+    <div className="relative flex flex-1 w-full items-center justify-center p-4">
        <Image
           src="/Farmland.jpg"
           alt="Farmland background"
