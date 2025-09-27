@@ -23,8 +23,10 @@ const adminLinks = [
 
 const loggedOutLinks = [
   { href: "/", label: "Home" },
+  { href: "/#about", label: "About" },
   { href: "/services", label: "Services" },
-  { href: "/profile", label: "Profile" },
+  { href: "/#testimonials", label: "Testimonials" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 

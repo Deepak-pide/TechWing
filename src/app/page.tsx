@@ -25,7 +25,7 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      <section className="container mx-auto py-16 px-4 md:px-8 text-center">
+      <section id="about" className="container mx-auto py-16 px-4 md:px-8 text-center scroll-mt-20">
         <h2 className="text-3xl font-bold font-headline mb-4">About Us</h2>
         <h3 className="text-xl font-semibold text-primary mb-6">SMART DRONE SOLUTIONS</h3>
         <p className="max-w-3xl mx-auto text-muted-foreground leading-relaxed">
@@ -73,8 +73,10 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      <Testimonials />
-      <section className="py-16">
+      <div id="testimonials" className="scroll-mt-20">
+        <Testimonials />
+      </div>
+      <section id="contact" className="py-16 scroll-mt-20">
         <div className="container mx-auto max-w-xl">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold font-headline">Our Contact</h2>
