@@ -76,9 +76,9 @@ export default function Footer() {
         </div>
 
       </div>
-      <div className="border-t border-white/20">
-        <div className="container mx-auto flex flex-wrap items-center justify-between gap-4 px-4 py-6 sm:px-8">
-            <p className="text-sm text-center sm:text-left text-white/60">
+      <div className="bg-primary text-primary-foreground">
+        <div className="container mx-auto flex flex-wrap items-center justify-center gap-4 px-4 py-4 sm:px-8">
+            <p className="text-sm text-center">
                 &copy; {new Date().getFullYear()} TechWing. All Rights Reserved.
             </p>
         </div>
@@ -86,3 +86,4 @@ export default function Footer() {
     </footer>
   );
 }
+
