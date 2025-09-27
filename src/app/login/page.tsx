@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function LoginPage() {
   return (
-    <div className="relative w-full h-full flex items-center justify-center p-4">
+    <div className="relative flex h-full w-full items-center justify-center p-4">
        <Image
           src="/Farmland.jpg"
           alt="Farmland background"
@@ -16,7 +16,7 @@ export default function LoginPage() {
         <CardHeader>
           <CardTitle className="text-2xl font-headline">Login</CardTitle>
           <CardDescription>
-            Enter your credentials or use the demo account to explore.
+            Enter your credentials to access your dashboard.
           </CardDescription>
         </CardHeader>
         <CardContent>
