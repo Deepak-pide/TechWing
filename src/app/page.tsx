@@ -1,6 +1,7 @@
 
 
 
+
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -37,11 +38,11 @@ export default function HomePage() {
     <>
       <div className="relative w-full h-[calc(100vh-150px)]">
         <Image
-          src="/Farmland.jpg"
-          alt="Farmland"
+          src="/image.jpg"
+          alt="Techwing Drone"
           fill
           className="object-cover"
-          data-ai-hint="farmland landscape"
+          data-ai-hint="drone technology"
           priority
         />
         <div className="absolute inset-0 bg-black/30" />

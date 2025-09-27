@@ -15,7 +15,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <main className={`flex-1 ${isMobile && !isLoginPage ? 'pb-20' : ''} ${isLoginPage ? 'flex items-center justify-center' : (isMobile ? 'pt-4' : 'py-8')}`}>
+      <main className={`flex-1 ${isMobile && !isLoginPage ? 'pb-20' : ''} ${isLoginPage ? 'flex' : (isMobile ? 'pt-4' : 'py-8')}`}>
         {children}
       </main>
       {!isLoginPage && <Footer />}
