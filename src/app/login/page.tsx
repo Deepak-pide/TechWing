@@ -8,7 +8,7 @@ export default function LoginPage() {
         <CardHeader>
           <CardTitle className="text-2xl font-headline">Login</CardTitle>
           <CardDescription>
-            Enter your credentials to access your account.
+            Enter your credentials or use the demo account to explore.
           </CardDescription>
         </CardHeader>
         <CardContent>
