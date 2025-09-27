@@ -153,7 +153,7 @@ export default function HomePage() {
             className="object-cover"
             data-ai-hint="farm sunset"
           />
-          <div className="absolute inset-0 bg-background/80" />
+          <div className="absolute inset-0 bg-background/50" />
           <div className="relative container mx-auto text-center">
             <h2 className="text-3xl font-bold font-headline mb-12">Why Choose Us</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
