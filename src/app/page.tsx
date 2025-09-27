@@ -86,30 +86,32 @@ export default function HomePage() {
                 <h2 className="text-3xl font-bold font-headline">What We Offer</h2>
                 <p className="text-primary font-semibold uppercase tracking-wider">Services</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
                 {services.map((service, index) => (
-                    <Card key={service.title} className={cn("flex flex-col", index === 1 && "md:scale-105 bg-card")}>
-                    <CardHeader className="p-0">
-                        <div className="relative aspect-video w-full">
-                            <Image
-                                src={service.image}
-                                alt={service.title}
-                                fill
-                                className="object-cover rounded-t-lg"
-                                data-ai-hint={service.imageHint}
-                            />
-                        </div>
-                    </CardHeader>
-                    <CardContent className="flex-grow p-6">
-                        <h3 className="text-xl font-bold font-headline mb-2">{service.title}</h3>
-                        <p className="text-muted-foreground">{service.description}</p>
-                    </CardContent>
-                     <CardFooter>
+                    <div key={service.title} className={cn("flex flex-col items-center text-center", index === 1 && "md:scale-105")}>
+                      <Card className="flex flex-col w-full">
+                        <CardHeader className="p-0">
+                            <div className="relative aspect-video w-full">
+                                <Image
+                                    src={service.image}
+                                    alt={service.title}
+                                    fill
+                                    className="object-cover rounded-t-lg"
+                                    data-ai-hint={service.imageHint}
+                                />
+                            </div>
+                        </CardHeader>
+                        <CardContent className="flex-grow p-6">
+                            <h3 className="text-xl font-bold font-headline mb-2">{service.title}</h3>
+                            <p className="text-muted-foreground">{service.description}</p>
+                        </CardContent>
+                      </Card>
+                      <div className="mt-4">
                         <Link href="/services">
                             <Button variant={'default'}>Read More</Button>
                         </Link>
-                    </CardFooter>
-                    </Card>
+                      </div>
+                    </div>
                 ))}
             </div>
         </div>
