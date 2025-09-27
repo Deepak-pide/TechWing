@@ -5,7 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import Testimonials from "./Testimonials";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const services = [
   {
@@ -84,9 +86,9 @@ export default function HomePage() {
                 <h2 className="text-3xl font-bold font-headline">What We Offer</h2>
                 <p className="text-primary font-semibold uppercase tracking-wider">Services</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {services.map((service) => (
-                    <Card key={service.title} className="flex flex-col">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-center">
+                {services.map((service, index) => (
+                    <Card key={service.title} className={cn("flex flex-col", index === 1 && "md:scale-105 bg-card")}>
                     <CardHeader className="p-0">
                         <div className="relative aspect-video w-full">
                             <Image
@@ -98,10 +100,15 @@ export default function HomePage() {
                             />
                         </div>
                     </CardHeader>
-                    <CardContent className="flex-grow pt-6">
+                    <CardContent className="flex-grow p-6">
                         <h3 className="text-xl font-bold font-headline mb-2">{service.title}</h3>
                         <p className="text-muted-foreground">{service.description}</p>
                     </CardContent>
+                     <CardFooter>
+                        <Link href="/services">
+                            <Button variant={index === 1 ? 'default' : 'secondary'}>Read More</Button>
+                        </Link>
+                    </CardFooter>
                     </Card>
                 ))}
             </div>
