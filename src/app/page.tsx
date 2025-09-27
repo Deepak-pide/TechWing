@@ -106,7 +106,7 @@ export default function HomePage() {
                     </CardContent>
                      <CardFooter>
                         <Link href="/services">
-                            <Button variant={index === 1 ? 'default' : 'secondary'}>Read More</Button>
+                            <Button variant={'default'}>Read More</Button>
                         </Link>
                     </CardFooter>
                     </Card>
