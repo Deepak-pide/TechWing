@@ -88,8 +88,8 @@ export default function HomePage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
                 {services.map((service, index) => (
-                    <div key={service.title} className={cn("flex flex-col items-center text-center", index === 1 && "md:scale-105")}>
-                      <Card className="flex flex-col w-full">
+                    <div key={service.title} className={cn("flex flex-col items-center text-center", index === 1 && "md:scale-110 z-10")}>
+                      <Card className={cn("flex flex-col w-full", index === 1 && "shadow-xl")}>
                         <CardHeader className="p-0">
                             <div className="relative aspect-video w-full">
                                 <Image
