@@ -145,7 +145,7 @@ export default function HomePage() {
             </div>
         </div>
       </section>
-       <section className="relative py-24 text-foreground">
+       <section className="relative py-24 text-white">
           <Image
             src="/background2.jpg"
             alt="Farm background"
@@ -159,19 +159,19 @@ export default function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="flex flex-col items-center">
                 <div className="w-36 h-36 md:w-48 md:h-48 rounded-full bg-accent flex justify-center items-center text-accent-foreground shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
-                    <h3 className="text-4xl md:text-5xl font-bold">300+</h3>
+                    <h3 className="text-3xl md:text-4xl font-bold">300+</h3>
                 </div>
                 <p className="mt-4 text-lg">Regular Customers</p>
               </div>
               <div className="flex flex-col items-center">
                 <div className="w-36 h-36 md:w-48 md:h-48 rounded-full bg-accent flex justify-center items-center text-accent-foreground shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
-                    <h3 className="text-4xl md:text-5xl font-bold">30+</h3>
+                    <h3 className="text-3xl md:text-4xl font-bold">30+</h3>
                 </div>
                  <p className="mt-4 text-lg">Professional Engineering</p>
               </div>
               <div className="flex flex-col items-center">
                 <div className="w-36 h-36 md:w-48 md:h-48 rounded-full bg-accent flex justify-center items-center text-accent-foreground shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
-                    <h3 className="text-4xl md:text-5xl font-bold">300+</h3>
+                    <h3 className="text-3xl md:text-4xl font-bold">300+</h3>
                 </div>
                 <p className="mt-4 text-lg">Points of Sale Goods</p>
               </div>
