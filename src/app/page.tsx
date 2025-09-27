@@ -1,9 +1,4 @@
 
-
-
-
-
-
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -104,7 +99,7 @@ export default function HomePage() {
               </div>
                <div className="relative col-span-1 row-span-1 rounded-lg overflow-hidden group">
                   <Image
-                    src="https://images.unsplash.com/photo-1588825838533-3b6391a9957a?q=80&w=1974&auto=format&fit=crop"
+                    src="/dronescan.jpg"
                     alt="Drone in hand"
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
