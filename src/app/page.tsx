@@ -108,7 +108,7 @@ export default function HomePage() {
                       </Card>
                       <div className="mt-4">
                         <Link href="/services">
-                            <Button variant={'default'}>Read More</Button>
+                            <Button variant={'default'} className="bg-black hover:bg-black/80">Read More</Button>
                         </Link>
                       </div>
                     </div>
