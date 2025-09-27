@@ -155,7 +155,7 @@ export default function HomePage() {
           />
           <div className="absolute inset-0 bg-background/50" />
           <div className="relative container mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-bold font-headline mb-12">Why Choose Us</h2>
+            <h2 className="text-4xl md:text-5xl font-bold font-headline mb-12 text-white">Why Choose Us</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="flex flex-col items-center">
                 <div className="w-36 h-36 md:w-48 md:h-48 rounded-full bg-accent flex justify-center items-center text-accent-foreground shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
