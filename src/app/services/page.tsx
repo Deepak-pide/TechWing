@@ -56,7 +56,7 @@ export default function ServicesPage() {
       <section className="py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {plans.map((plan) => (
-            <Card key={plan.name} className={`flex flex-col overflow-hidden ${plan.name === 'ADVANCED PACKAGE' ? 'border-primary' : ''}`}>
+            <Card key={plan.name} className={`shine-effect flex flex-col ${plan.name === 'ADVANCED PACKAGE' ? 'border-primary' : ''}`}>
               <CardHeader className="p-0">
                   <div className="relative aspect-video w-full">
                       <Image
