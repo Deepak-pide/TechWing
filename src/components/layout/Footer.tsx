@@ -76,7 +76,7 @@ export default function Footer() {
         </div>
 
       </div>
-      <div className="bg-primary text-primary-foreground">
+      <div className="bg-background text-foreground">
         <div className="container mx-auto flex flex-wrap items-center justify-center gap-4 px-4 py-4 sm:px-8">
             <p className="text-sm text-center">
                 &copy; {new Date().getFullYear()} TechWing. All Rights Reserved.
