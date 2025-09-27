@@ -1,5 +1,6 @@
 
 
+
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -174,10 +175,8 @@ export default function HomePage() {
                 <Input type="text" placeholder="Your Name" />
                 <Input type="tel" placeholder="Phone Number" />
                 <Textarea placeholder="Message" rows={5} />
-                <div className="flex gap-4">
-                    <Input type="text" placeholder="Your Location" className="flex-grow" />
-                    <Button>Send</Button>
-                </div>
+                <Input type="text" placeholder="Your Location" />
+                <Button className="w-full">Send</Button>
             </div>
           </div>
         </div>
