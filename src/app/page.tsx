@@ -2,6 +2,7 @@
 
 
 
+
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -53,6 +54,14 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+      <section className="relative -mt-24 z-10">
+        <div className="container mx-auto">
+            <div className="bg-card text-card-foreground rounded-lg shadow-lg p-8 max-w-4xl mx-auto">
+                <h2 className="text-3xl font-bold font-headline text-center">Precision Drone Farming</h2>
+                <p className="text-center text-muted-foreground mt-2">Revolutionizing agriculture with cutting-edge drone technology for enhanced efficiency and yield.</p>
+            </div>
+        </div>
+      </section>
       <section id="about" className="container mx-auto py-16 px-4 md:px-8 scroll-mt-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="text-left">
