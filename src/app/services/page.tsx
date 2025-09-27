@@ -48,35 +48,6 @@ const plans = [
 export default function ServicesPage() {
   return (
     <div className="container mx-auto p-4 md:p-8">
-       <style>
-        {`
-            .shine-effect {
-                position: relative;
-                overflow: hidden;
-            }
-
-            .shine-effect::after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: -150%;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(
-                to right,
-                transparent 0%,
-                rgba(255, 255, 255, 0.4) 50%,
-                transparent 100%
-                );
-                transform: skewX(-25deg);
-                transition: left 0.75s ease-in-out;
-            }
-
-            .shine-effect:hover::after {
-                left: 150%;
-            }
-        `}
-      </style>
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold font-headline tracking-tight text-foreground">Our Pricing Plans</h1>
         <p className="mt-2 text-lg text-muted-foreground">Choose the best plan for your farming needs.</p>
@@ -85,7 +56,7 @@ export default function ServicesPage() {
       <section className="py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {plans.map((plan) => (
-            <Card key={plan.name} className={`shine-effect flex flex-col ${plan.name === 'ADVANCED PACKAGE' ? 'border-primary' : ''}`}>
+            <Card key={plan.name} className={`flex flex-col ${plan.name === 'ADVANCED PACKAGE' ? 'border-primary' : ''}`}>
               <CardHeader className="p-0">
                   <div className="relative aspect-video w-full">
                       <Image
