@@ -99,7 +99,7 @@ export default function HomePage() {
               </div>
                <div className="relative col-span-1 row-span-1 rounded-lg overflow-hidden group">
                   <Image
-                    src="/dronescan.jpg"
+                    src="/dronescann.jpg"
                     alt="Drone in hand"
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
