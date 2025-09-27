@@ -22,7 +22,7 @@ const services = [
     description: "Monitor crop growth stages, detect pests, diseases, and other issues early on, allowing for targeted interventions and improved yields.",
   },
   {
-    image: "/dronescan.jpg",
+    image: "/dronescann.jpg",
     imageHint: "drone spraying field",
     title: "SPRAYING SERVICE",
     description: "Offering drone-based spraying services for precise application of fertilizers, pesticides, and herbicides, reducing chemical usage and environmental impact.",
