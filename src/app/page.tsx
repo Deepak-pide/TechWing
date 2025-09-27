@@ -168,21 +168,17 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      <section className="pb-16">
-        <div className="container mx-auto max-w-4xl">
-            <div className="relative aspect-video rounded-lg overflow-hidden mt-8">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112073.61110033142!2d77.15948305820313!3d28.620265200000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x37205b715389640!2sNew%20Delhi%2C%20Delhi%2C%20India!5e0!3m2!1sen!2sus!4v1700000000000"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen={true}
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title="Google Map of New Delhi"
-                ></iframe>
-            </div>
-        </div>
+      <section className="w-full h-[450px]">
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112073.61110033142!2d77.15948305820313!3d28.620265200000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x37205b715389640!2sNew%20Delhi%2C%20Delhi%2C%20India!5e0!3m2!1sen!2sus!4v1700000000000"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen={true}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Google Map of New Delhi"
+        ></iframe>
       </section>
     </>
   );
